@@ -6,8 +6,8 @@ if(isset($_GET['controller']) & isset($_GET['action'])){
     $controller = $_GET['controller'];
     $action = $_GET['action'];
 } else {
-    $controller = "professeur";
-    $action = "acceuil";
+    $controller = "utilisateur";
+    $action = "accueil";
 }
 
 require('./controller/' . $controller . '.php');
