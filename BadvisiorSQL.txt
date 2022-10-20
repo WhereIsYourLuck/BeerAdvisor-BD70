@@ -1,44 +1,54 @@
+SET foreign_key_checks = 0;
+DROP TABLE iF EXISTS TypeUtilisateur;
+DROP TABLE iF EXISTS TypeLevure;
+DROP TABLE iF EXISTS TypeMalt;
+DROP TABLE iF EXISTS TypeHoublon;
+DROP TABLE iF EXISTS Biere;
+DROP TABLE iF EXISTS Utilisateur;
+DROP TABLE iF EXISTS Note;
+DROP TABLE iF EXISTS Recommande;
+SET foreign_key_checks = 1;
+
+USE BeerAdvisor;
 CREATE TABLE TypeUtilisateur(
    idTypeUtilisateur INT NOT NULL,
-   idUtilisateur INT NOT NULL
+   nomTypeUtilisateur VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE TypeLevure(
    idLevure INT,
-   nomLevure VARCHAR(50) NOT NULL
+   nomLevure VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE TypeMalt(
    idMalt INT,
-   nomMalt VARCHAR(50) NOT NULL
+   nomMalt VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE TypeHoublon(
    idHoublon INT,
-   nomHoublon VARCHAR(50) NOT NULL
+   nomHoublon VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE Biere(
    idBiere INT,
-   nomBiere VARCHAR(50) NOT NULL,
-   tauxAlcool DECIMAL(5,2) NOT NULL,
-   idMalt INT,
-   idHoublon INT,
-   idLevure INT
+   nomBiere VARCHAR(50) NOT NULL UNIQUE,
+   tauxAlcool DECIMAL(6,2)
 );
 
 CREATE TABLE Utilisateur(
    idUtilisateur INT,
-   nomUtilisateur VARCHAR(50) NOT NULL,
+   nomUtilisateur VARCHAR(50) NOT NULL UNIQUE,
    passwordUtilsateur VARCHAR(50),
-   typeUtilisateur INT,
    idTypeUtilisateur INT NOT NULL
 );
 
 CREATE TABLE Note(
    idBiere INT,
    idUtilisateur INT,
-   noteValeur INT NOT NULL
+   noteValeur DECIMAL(6,2),
+   commentaireBiere TEXT(300),
+   dateDegustation DATE
 );
 
 CREATE TABLE Recommande(
@@ -46,24 +56,44 @@ CREATE TABLE Recommande(
    idUtilisateur INT
 );
 
-ALTER TABLE TypeUtilisateur ADD CONSTRAINT PK_idTypeUtilisateur_idUtilisateur PRIMARY KEY(idTypeUtilisateur, idUtilisateur);
+-- ----------------------------------------------- AJOUTS PRIMARY KEY --------------------------------------------------------------
+ALTER TABLE TypeUtilisateur ADD CONSTRAINT PK_idTypeUtilisateur_idUtilisateur PRIMARY KEY(idTypeUtilisateur);
 ALTER TABLE TypeHoublon ADD CONSTRAINT PK_idHoublon PRIMARY KEY(idHoublon);
 ALTER TABLE TypeMalt ADD CONSTRAINT PK_idMalt PRIMARY KEY(idMalt);
 ALTER TABLE TypeLevure ADD CONSTRAINT PK_idLevure PRIMARY KEY(idLevure);
-ALTER TABLE BIERE ADD CONSTRAINT PK_idBiere PRIMARY KEY (idBiere);
+ALTER TABLE Biere ADD CONSTRAINT PK_idBiere PRIMARY KEY (idBiere);
 ALTER TABLE Utilisateur ADD CONSTRAINT PK_idUtilisateur PRIMARY KEY (idUtilisateur);
 ALTER TABLE Note ADD CONSTRAINT PK_idBiere_idUtilisateur PRIMARY KEY(idBiere, idUtilisateur);
 ALTER TABLE Recommande ADD CONSTRAINT PK_idBiere_idUtilisateur_recommande PRIMARY KEY(idBiere, idUtilisateur);
+-- ----------------------------------------------- AJOUTS PRIMARY KEY --------------------------------------------------------------
 
-ALTER TABLE Biere ADD CONSTRAINT FK_idMalt FOREIGN KEY (idMalt) REFERENCES TypeMalt(idMalt) ON DELETE CASCADE;
-ALTER TABLE Biere ADD CONSTRAINT FK_idHoublon FOREIGN KEY (idHoublon) REFERENCES TypeHoublon(idHoublon) ON DELETE CASCADE;
-ALTER TABLE Biere ADD CONSTRAINT FK_idLevure FOREIGN KEY (idLevure) REFERENCES TypeLevure(idLevure) ON DELETE CASCADE;
+-- ----------------------------------------------- AJOUTS AUTO-INCREMENTATION ------------------------------------------------------
+ALTER TABLE typeutilisateur CHANGE idTypeUtilisateur idTypeUtilisateur INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE biere CHANGE idBiere idBiere INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE typehoublon CHANGE idHoublon idHoublon INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE typelevure CHANGE idLevure idLevure INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE typemalt CHANGE idMalt idMalt INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE typeutilisateur CHANGE idTypeUtilisateur idTypeUtilisateur INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE utilisateur CHANGE idUtilisateur idUtilisateur INT(11) NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------- AJOUTS AUTO-INCREMENTATION ------------------------------------------------------
+
+ALTER TABLE Note ADD CONSTRAINT CK_Note_Utilisateur CHECK (noteValeur BETWEEN 0 AND 5);
+
+-- ----------------------------------------------- AJOUTS FOREIGN KEY---------------------------------------------------------------
+-- ALTER TABLE Biere ADD CONSTRAINT FK_idMalt FOREIGN KEY (idMalt) REFERENCES TypeMalt(idMalt) ON DELETE CASCADE;
+-- ALTER TABLE Biere ADD CONSTRAINT FK_idHoublon FOREIGN KEY (idHoublon) REFERENCES TypeHoublon(idHoublon) ON DELETE CASCADE;
+-- ALTER TABLE Biere ADD CONSTRAINT FK_idLevure FOREIGN KEY (idLevure) REFERENCES TypeLevure(idLevure) ON DELETE CASCADE;
 
 
-ALTER TABLE Utilisateur ADD CONSTRAINT FK_typeUtilisateur FOREIGN KEY(typeUtilisateur) REFERENCES TypeUtilisateur(idTypeUtilisateur);
+ALTER TABLE Utilisateur ADD CONSTRAINT FK_typeUtilisateur FOREIGN KEY(idtypeUtilisateur) REFERENCES TypeUtilisateur(idTypeUtilisateur) ON DELETE CASCADE;
 
 ALTER TABLE Note ADD CONSTRAINT FK_idBiere FOREIGN KEY(idBiere) REFERENCES Biere(idBiere) ON DELETE CASCADE;
 ALTER TABLE Note ADD CONSTRAINT FK_idUtilisateur FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur) ON DELETE CASCADE;
 
 ALTER TABLE Recommande ADD CONSTRAINT FK_idBiere_recommande FOREIGN KEY(idBiere) REFERENCES Biere(idBiere) ON DELETE CASCADE;
-ALTER TABLE Recommande ADD CONSTRAINT FK_idUtilisateur_recommande FOREIGN KEY(idUtilisateur) REFERENCes Utilisateur(idUtilisateur) ON DELETE CASCADE;
+ALTER TABLE Recommande ADD CONSTRAINT FK_idUtilisateur_recommande FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur) ON DELETE CASCADE;
+-- ----------------------------------------------- AJOUTS FOREIGN KEY---------------------------------------------------------------
+
+-- ----------------------------------------------- DATA ---------------------------------------------------------------
+INSERT INTO TypeUtilisateur(nomTypeUtilisateur) VALUES ("admin");
+INSERT INTO TypeUtilisateur(nomTypeUtilisateur) VALUES ("user");
