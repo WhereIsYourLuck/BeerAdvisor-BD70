@@ -7,11 +7,15 @@ DROP TABLE iF EXISTS Biere;
 DROP TABLE iF EXISTS Utilisateur;
 DROP TABLE iF EXISTS Note;
 DROP TABLE iF EXISTS Recommande;
+DROP TABLE IF EXISTS Suit;
+DROP TABLE IF EXISTS PossedeLevure;
+DROP TABLE IF EXISTS PossedeMalt;
+DROP TABLE IF EXISTS PossedeHoublon;
 SET foreign_key_checks = 1;
 
 USE BeerAdvisor;
 CREATE TABLE TypeUtilisateur(
-   idTypeUtilisateur INT NOT NULL,
+   idTypeUtilisateur INT,
    nomTypeUtilisateur VARCHAR(50) NOT NULL UNIQUE
 );
 
@@ -39,7 +43,7 @@ CREATE TABLE Biere(
 CREATE TABLE Utilisateur(
    idUtilisateur INT,
    nomUtilisateur VARCHAR(50) NOT NULL UNIQUE,
-   passwordUtilsateur VARCHAR(50),
+   passwordUtilsateur VARCHAR(100),
    idTypeUtilisateur INT NOT NULL
 );
 
@@ -56,6 +60,27 @@ CREATE TABLE Recommande(
    idUtilisateur INT
 );
 
+CREATE TABLE Suit(
+   idUtilisateurSuiveur INT,
+   idUtilisateurSuivi INT
+);
+
+CREATE TABLE PossedeLevure(
+   idLevure INT NOT NULL,
+   idBiere INT NOT NULL
+);
+
+CREATE TABLE PossedeHoublon(
+   idHoublon INT NOT NULL,
+   idBiere INT NOT NULL
+);
+
+CREATE TABLE PossedeMalt(
+   idMalt  INT NOT NULL,
+   idBiere INT NOT NULL
+);
+
+
 -- ----------------------------------------------- AJOUTS PRIMARY KEY --------------------------------------------------------------
 ALTER TABLE TypeUtilisateur ADD CONSTRAINT PK_idTypeUtilisateur_idUtilisateur PRIMARY KEY(idTypeUtilisateur);
 ALTER TABLE TypeHoublon ADD CONSTRAINT PK_idHoublon PRIMARY KEY(idHoublon);
@@ -65,6 +90,11 @@ ALTER TABLE Biere ADD CONSTRAINT PK_idBiere PRIMARY KEY (idBiere);
 ALTER TABLE Utilisateur ADD CONSTRAINT PK_idUtilisateur PRIMARY KEY (idUtilisateur);
 ALTER TABLE Note ADD CONSTRAINT PK_idBiere_idUtilisateur PRIMARY KEY(idBiere, idUtilisateur);
 ALTER TABLE Recommande ADD CONSTRAINT PK_idBiere_idUtilisateur_recommande PRIMARY KEY(idBiere, idUtilisateur);
+ALTER TABLE Suit ADD CONSTRAINT PK_idUtilisateurSuiveur_idUtilisateurSuivi PRIMARY KEY(idUtilisateurSuiveur, idUtilisateurSuivi);
+
+ALTER TABLE PossedeMalt ADD CONSTRAINT PK_idMalt_idBiere_PossedeMalt PRIMARY KEY(idMalt, idBiere);
+ALTER TABLE PossedeHoublon ADD CONSTRAINT PK_idMalt_idBiere_PossedeHoublon PRIMARY KEY(idHoublon, idBiere);
+ALTER TABLE PossedeLevure ADD CONSTRAINT PK_idMalt_idBiere_PossedeLevure PRIMARY KEY(idLevure, idBiere);
 -- ----------------------------------------------- AJOUTS PRIMARY KEY --------------------------------------------------------------
 
 -- ----------------------------------------------- AJOUTS AUTO-INCREMENTATION ------------------------------------------------------
@@ -77,23 +107,118 @@ ALTER TABLE typeutilisateur CHANGE idTypeUtilisateur idTypeUtilisateur INT(11) N
 ALTER TABLE utilisateur CHANGE idUtilisateur idUtilisateur INT(11) NOT NULL AUTO_INCREMENT;
 -- ----------------------------------------------- AJOUTS AUTO-INCREMENTATION ------------------------------------------------------
 
+-- ----------------------------------------------- AJOUTS CONSTRAINT --------------------------------------------------------------
 ALTER TABLE Note ADD CONSTRAINT CK_Note_Utilisateur CHECK (noteValeur BETWEEN 0 AND 5);
+ALTER TABLE Note ADD CONSTRAINT CK_DateDegustation CHECK (dateDegustation <= curdate());
+-- ----------------------------------------------- AJOUTS CONSTRAINT --------------------------------------------------------------
 
 -- ----------------------------------------------- AJOUTS FOREIGN KEY---------------------------------------------------------------
--- ALTER TABLE Biere ADD CONSTRAINT FK_idMalt FOREIGN KEY (idMalt) REFERENCES TypeMalt(idMalt) ON DELETE CASCADE;
--- ALTER TABLE Biere ADD CONSTRAINT FK_idHoublon FOREIGN KEY (idHoublon) REFERENCES TypeHoublon(idHoublon) ON DELETE CASCADE;
--- ALTER TABLE Biere ADD CONSTRAINT FK_idLevure FOREIGN KEY (idLevure) REFERENCES TypeLevure(idLevure) ON DELETE CASCADE;
-
-
 ALTER TABLE Utilisateur ADD CONSTRAINT FK_typeUtilisateur FOREIGN KEY(idtypeUtilisateur) REFERENCES TypeUtilisateur(idTypeUtilisateur) ON DELETE CASCADE;
+
+ALTER TABLE Suit ADD CONSTRAINT FK_UtilisateurSuiveur FOREIGN KEY(idUtilisateurSuiveur) REFERENCES Utilisateur(idUtilisateur) ON DELETE CASCADE;
+ALTER TABLE Suit ADD CONSTRAINT FK_typeUtilisateurSuivi FOREIGN KEY(idUtilisateurSuivi) REFERENCES Utilisateur(idUtilisateur) ON DELETE CASCADE;
 
 ALTER TABLE Note ADD CONSTRAINT FK_idBiere FOREIGN KEY(idBiere) REFERENCES Biere(idBiere) ON DELETE CASCADE;
 ALTER TABLE Note ADD CONSTRAINT FK_idUtilisateur FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur) ON DELETE CASCADE;
 
 ALTER TABLE Recommande ADD CONSTRAINT FK_idBiere_recommande FOREIGN KEY(idBiere) REFERENCES Biere(idBiere) ON DELETE CASCADE;
 ALTER TABLE Recommande ADD CONSTRAINT FK_idUtilisateur_recommande FOREIGN KEY(idUtilisateur) REFERENCES Utilisateur(idUtilisateur) ON DELETE CASCADE;
+
+ALTER TABLE PossedeMalt ADD CONSTRAINT FK_TypeMalt_PossedeMalt FOREIGN KEY(idMalt) REFERENCES TypeMalt(idMalt) ON DELETE CASCADE;
+ALTER TABLE PossedeMalt ADD CONSTRAINT FK_idBiere_PossedeMalt FOREIGN KEY(idBiere) REFERENCES Biere(idBiere) ON DELETE CASCADE;
+
+ALTER TABLE PossedeHoublon ADD CONSTRAINT FK_TypeMalt_PossedeHoublon FOREIGN KEY(idHoublon) REFERENCES TypeHoublon(idHoublon) ON DELETE CASCADE;
+ALTER TABLE PossedeHoublon ADD CONSTRAINT FK_idBiere_PossedeHoublon FOREIGN KEY(idBiere) REFERENCES Biere(idBiere) ON DELETE CASCADE;
+
+ALTER TABLE PossedeLevure ADD CONSTRAINT FK_TypeMalt_PossedeLevure FOREIGN KEY(idLevure) REFERENCES TypeLevure(idLevure) ON DELETE CASCADE;
+ALTER TABLE PossedeLevure ADD CONSTRAINT FK_idBiere_PossedeLevure FOREIGN KEY(idBiere) REFERENCES Biere(idBiere) ON DELETE CASCADE;
 -- ----------------------------------------------- AJOUTS FOREIGN KEY---------------------------------------------------------------
 
 -- ----------------------------------------------- DATA ---------------------------------------------------------------
-INSERT INTO TypeUtilisateur(nomTypeUtilisateur) VALUES ("admin");
-INSERT INTO TypeUtilisateur(nomTypeUtilisateur) VALUES ("user");
+INSERT INTO TypeUtilisateur(nomTypeUtilisateur) VALUES("admin");
+INSERT INTO TypeUtilisateur(nomTypeUtilisateur) VALUES("user");
+
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("leffe brune", 6.5);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("leffe triple", 8.5);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("leffe ruby", 5.0);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("heineken", 5.0);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("desperados", 9.0);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("affligem blonde", 4.6);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("affligem fruits rouges", 5.2);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("guinness", 4.2);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("8.6", 8.6);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("chouffe", 8.0);
+INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("goudale", 7.2);
+
+-- $2y$10$OAWyCpFIcmdgvu3EJcCTHue.5zl6Rr8CulcANSVhxuRvtFXnb9NDa admin
+-- $2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62 user
+
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("admin", "$2y$10$OAWyCpFIcmdgvu3EJcCTHue.5zl6Rr8CulcANSVhxuRvtFXnb9NDa", 1);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("axel", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("tristan", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("AlcooliqueNotoire", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("8Morts6Blesses", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("15OuRien", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("MonPoteWillyLeWhisky", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("MonPoteRiriLeRicard", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("MaCaf-y-passe", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(1,1);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(1,2);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(1,3);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(4,9);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(4,3);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(3,1);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(3,5);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(9,9);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(6,7);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(6,8);
+INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(8,7);
+
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(1,2);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(2,3);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(2,4);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(2,1);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(4,2);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(4,9);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(4,6);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(3,2);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(3,6);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(3,7);
+INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(3,8);
+
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 1, 4.0, "Pas mal", "2022-10-19");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 2, 1.0, "Nulle", "2022-10-03");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 3, 5.0, "Incrooooooooooooooooooooooooyable", "2022-10-06");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 6, 5.0, "mmmmmmmmmmmmmmmmmmmmmhhhhh", "2022-10-06");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(2, 9, 5.0, "Incrooooooooooooooooooooooooyable", "2022-10-06");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(2, 3, 0.0, "IPas bon", "2022-10-09");
+
+INSERT INTO TypeMalt(nomMalt) VALUES("blé");
+INSERT INTO TypeMalt(nomMalt) VALUES("blé torréfié");
+INSERT INTO TypeMalt(nomMalt) VALUES("orge");
+INSERT INTO TypeMalt(nomMalt) VALUES("orge torréfié");
+INSERT INTO TypeMalt(nomMalt) VALUES("seigle");
+INSERT INTO TypeMalt(nomMalt) VALUES("biscuit");
+INSERT INTO TypeMalt(nomMalt) VALUES("munich");
+INSERT INTO TypeMalt(nomMalt) VALUES("vienna");
+INSERT INTO TypeMalt(nomMalt) VALUES("aromatique");
+INSERT INTO TypeMalt(nomMalt) VALUES("caramel");
+INSERT INTO TypeMalt(nomMalt) VALUES("chocolat");
+INSERT INTO TypeMalt(nomMalt) VALUES("noir");
+INSERT INTO TypeMalt(nomMalt) VALUES("carafa");
+INSERT INTO TypeMalt(nomMalt) VALUES("fumé");
+INSERT INTO TypeMalt(nomMalt) VALUES("acide");
+
+INSERT INTO TypeHoublon(nomHoublon) VALUES("admiral");
+INSERT INTO TypeHoublon(nomHoublon) VALUES("Citra");
+INSERT INTO TypeHoublon(nomHoublon) VALUES("magnum");
+INSERT INTO TypeHoublon(nomHoublon) VALUES("saaz");
+INSERT INTO TypeHoublon(nomHoublon) VALUES("sterling");
+INSERT INTO TypeHoublon(nomHoublon) VALUES("strisselspalt");
+INSERT INTO TypeHoublon(nomHoublon) VALUES("summit");
+
+INSERT INTO TypeLevure(nomLevure) VALUES("ales");
+INSERT INTO TypeLevure(nomLevure) VALUES("lager");
+INSERT INTO TypeLevure(nomLevure) VALUES("sauvages");
+-- ----------------------------------------------- DATA ---------------------------------------------------------------
