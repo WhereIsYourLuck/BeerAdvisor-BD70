@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS beeradvisor;
+USE beeradvisor;
+
 SET foreign_key_checks = 0;
 DROP TABLE iF EXISTS TypeUtilisateur;
 DROP TABLE iF EXISTS TypeLevure;
@@ -43,7 +46,7 @@ CREATE TABLE Biere(
 CREATE TABLE Utilisateur(
    idUtilisateur INT,
    nomUtilisateur VARCHAR(50) NOT NULL UNIQUE,
-   passwordUtilsateur VARCHAR(100),
+   passwordUtilisateur VARCHAR(100),
    idTypeUtilisateur INT NOT NULL
 );
 
@@ -153,15 +156,15 @@ INSERT INTO Biere(nomBiere, tauxAlcool) VALUES("goudale", 7.2);
 -- $2y$10$OAWyCpFIcmdgvu3EJcCTHue.5zl6Rr8CulcANSVhxuRvtFXnb9NDa admin
 -- $2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62 user
 
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("admin", "$2y$10$OAWyCpFIcmdgvu3EJcCTHue.5zl6Rr8CulcANSVhxuRvtFXnb9NDa", 1);
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("axel", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("tristan", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("AlcooliqueNotoire", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("8Morts6Blesses", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("15OuRien", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("MonPoteWillyLeWhisky", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("MonPoteRiriLeRicard", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
-INSERT INTO Utilisateur(nomUtilisateur, passwordUtilsateur, idTypeUtilisateur) VALUES("MaCaf-y-passe", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("admin", "$2y$10$OAWyCpFIcmdgvu3EJcCTHue.5zl6Rr8CulcANSVhxuRvtFXnb9NDa", 1);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("axel", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("tristan", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("AlcooliqueNotoire", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("8Morts6Blesses", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("15OuRien", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("MonPoteWillyLeWhisky", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("MonPoteRiriLeRicard", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
+INSERT INTO Utilisateur(nomUtilisateur, passwordUtilisateur, idTypeUtilisateur) VALUES("MaCaf-y-passe", "$2y$10$GaesY6vaC4uCilvGTFVVuOhVIh3awKm1xBG9XU6Y8yozODborTY62", 2);
 
 INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(1,1);
 INSERT INTO Recommande(idBiere, idUtilisateur) VALUES(1,2);

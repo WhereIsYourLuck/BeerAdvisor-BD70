@@ -1,6 +1,6 @@
 <?php
 	$hostname = "localhost";	//ou localhost
-	$base= "Mettre un nom";
+	$base= "beeradvisor";
 	$loginBD= "root";	//ou "root"
 	$passBD="root";
 	//$pdo = null;
