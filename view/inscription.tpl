@@ -4,7 +4,7 @@ if(isset($_SESSION['nomUtilisateur'])){
 }
 ?>
 <!DOCTYPE html >
-<html>
+<html lang="fr">
 <head>
     <title>Inscription Utilisateur</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>

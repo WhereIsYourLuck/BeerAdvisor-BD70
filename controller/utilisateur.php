@@ -1,18 +1,35 @@
 <?php
-function accueil(){
-    require_once('./view/accueil.tpl');
-}
+function accueil(){ require_once('./view/accueil.tpl'); }
 
-function affichageConnexion(){
-    require_once('./view/connexion.tpl');
-}
+function affichageConnexion(){ require_once('./view/connexion.tpl'); }
 
-function affichageInscription(){
-    require_once('./view/inscription.tpl');
-}
+function affichageInscription(){ require_once('./view/inscription.tpl'); }
 
 function affichageCompte(){
+    require_once('./modele/utilisateurDB.php');
+    if(isset($_GET['id']) && is_numeric($_GET['id'])) {
+        getUtilisateursSuivis($_GET['id'], $UtilisateursSuivis);
+        getNotes($_GET['id'], $NotesUtilisateurs);
+        require_once('./view/templates/ficheUtilisateur.tpl');
+    } else { header("location: index.php?"); }
+}
+
+function suivreUtilisateur(){
+    require_once('./modele/utilisateurDB.php');
+    //On fait pas de verif si l'utilisateur est pas déjà suiveur par le 1er user car c'est checké dans la bdd
+    ajouterUtilisateurSuivi($_SESSION['idUtilisateur'],$_GET['id']);
+    affichageCompte();
+}
+
+function desabonnementUtilisateur(){}
+
+
+function donneesParId($idUtilisateur){
+    require_once('./modele/utilisateurDB.php');
     require_once('./view/templates/ficheUtilisateur.tpl');
+    getUtilisateursSuivis($idUtilisateur, $UtilisateursSuivis);
+    getRecommandations($idUtilisateur, $recommandations);
+    getNotes($idUtilisateur, $notes);
 }
 
 function connexion(){
@@ -24,10 +41,7 @@ function connexion(){
         $_SESSION['nomUtilisateur'] = $profil[0]['nomUtilisateur'];
         $_SESSION['idTypeUtilisateur'] = $profil[0]['idTypeUtilisateur'];
         header("location: index.php?");
-    } else {
-        $messerr = "Erreur de connexion";
-        require_once('./view/connexion.tpl');
-    }
+    } else {  $messerr = "Erreur de connexion"; require_once('./view/connexion.tpl'); }
 }
 
 function inscription(){
@@ -50,4 +64,4 @@ function deconnexion(){
     header('location: index.php?');
 }
 
-return array('accueil', 'affichageInscription','affichageConnexion', 'affichageCompte', 'connexion', 'inscription', 'deconnexion');
+return array('accueil', 'affichageInscription','affichageConnexion', 'affichageCompte', 'connexion', 'inscription', 'deconnexion', 'suivreUtilisateur', 'desabonnementUtilisateur');
