@@ -40,7 +40,8 @@ CREATE TABLE TypeHoublon(
 CREATE TABLE Biere(
    idBiere INT,
    nomBiere VARCHAR(50) NOT NULL UNIQUE,
-   tauxAlcool DECIMAL(6,2)
+   tauxAlcool DECIMAL(6,2),
+   noteMoyBiere INT
 );
 
 CREATE TABLE Utilisateur(
