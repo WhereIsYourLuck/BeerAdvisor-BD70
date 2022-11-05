@@ -41,7 +41,7 @@ CREATE TABLE Biere(
    idBiere INT,
    nomBiere VARCHAR(50) NOT NULL UNIQUE,
    tauxAlcool DECIMAL(6,2),
-   noteMoyBiere INT
+   noteMoyBiere DECIMAL(6,2)
 );
 
 CREATE TABLE Utilisateur(
@@ -113,7 +113,7 @@ ALTER TABLE utilisateur CHANGE idUtilisateur idUtilisateur INT(11) NOT NULL AUTO
 
 -- ----------------------------------------------- AJOUTS CONSTRAINT --------------------------------------------------------------
 ALTER TABLE Note ADD CONSTRAINT CK_Note_Utilisateur CHECK (noteValeur BETWEEN 0 AND 5);
-ALTER TABLE Note ADD CONSTRAINT CK_DateDegustation CHECK (dateDegustation <= curdate());
+-- ALTER TABLE Note ADD CONSTRAINT CK_DateDegustation CHECK (dateDegustation <= CURRENT_DATE());
 -- ----------------------------------------------- AJOUTS CONSTRAINT --------------------------------------------------------------
 
 -- ----------------------------------------------- AJOUTS FOREIGN KEY---------------------------------------------------------------
@@ -138,6 +138,58 @@ ALTER TABLE PossedeHoublon ADD CONSTRAINT FK_idBiere_PossedeHoublon FOREIGN KEY(
 ALTER TABLE PossedeLevure ADD CONSTRAINT FK_TypeMalt_PossedeLevure FOREIGN KEY(idLevure) REFERENCES TypeLevure(idLevure) ON DELETE CASCADE;
 ALTER TABLE PossedeLevure ADD CONSTRAINT FK_idBiere_PossedeLevure FOREIGN KEY(idBiere) REFERENCES Biere(idBiere) ON DELETE CASCADE;
 -- ----------------------------------------------- AJOUTS FOREIGN KEY---------------------------------------------------------------
+
+-- ----------------------------------------------- TRIGGERS ---------------------------------------------------------------
+delimiter //
+CREATE TRIGGER maj_moy_note_biere_insert
+AFTER INSERT ON Note
+FOR EACH ROW 
+BEGIN 
+
+DECLARE moy_b INT(11); 
+
+SELECT AVG(noteValeur) INTO moy_b FROM Note WHERE idBiere = NEW.idBiere; 
+UPDATE Biere SET noteMoyBiere = moy_b WHERE idBiere = NEW.idBiere; 
+END;//
+delimiter; 
+
+delimiter // 
+CREATE TRIGGER maj_moy_note_biere_update
+AFTER UPDATE ON Note
+FOR EACH ROW 
+BEGIN 
+
+DECLARE moy_b INT(11); 
+
+SELECT AVG(noteValeur) INTO moy_b FROM Note WHERE idBiere = NEW.idBiere; 
+UPDATE Biere SET noteMoyBiere = moy_b WHERE idBiere = NEW.idBiere; 
+END;//
+delimiter;
+
+delimiter //
+CREATE TRIGGER maj_moy_note_biere_delete
+AFTER DELETE ON Note
+FOR EACH ROW 
+BEGIN 
+
+DECLARE moy_b INT(11); 
+
+SELECT AVG(noteValeur) INTO moy_b FROM Note WHERE idBiere = OLD.idBiere; 
+UPDATE Biere SET noteMoyBiere = moy_b WHERE idBiere = OLD.idBiere; 
+END;//
+delimiter; 
+
+delimiter //
+CREATE TRIGGER verif_suivi
+AFTER UPDATE ON Suit 
+FOR EACH ROW 
+BEGIN
+IF NEW.idUtilisateurSuiveur = NEW.idUtilisateurSuivi THEN 
+signal sqlstate '45000' set message_text = 'Impossible de suivre cet utilisateur';   
+END IF; 
+END;// 
+delimiter ; 
+-- ----------------------------------------------- TRIGGERS ---------------------------------------------------------------
 
 -- ----------------------------------------------- DATA ---------------------------------------------------------------
 INSERT INTO TypeUtilisateur(nomTypeUtilisateur) VALUES("admin");
@@ -227,3 +279,4 @@ INSERT INTO TypeLevure(nomLevure) VALUES("ales");
 INSERT INTO TypeLevure(nomLevure) VALUES("lager");
 INSERT INTO TypeLevure(nomLevure) VALUES("sauvages");
 -- ----------------------------------------------- DATA ---------------------------------------------------------------
+
