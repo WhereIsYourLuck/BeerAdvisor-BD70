@@ -89,13 +89,13 @@ function getRecommandations($idSuiveur, &$recommandations){
     else { $recommandations = $resultat; return true; }
 }
 
-function getNotes($idUtilisateur, &$NotesUtilisateurs){
+function getNotes($idUtilisateur, &$NotesUtilisateurs, $orderBy){
     require('./modele/connectDB.php');
     $sql = "SELECT note.idBiere, biere.nomBiere, note.idUtilisateur, utilisateur.nomUtilisateur, note.noteValeur, note.commentaireBiere, note.dateDegustation
                 FROM note
                     INNER JOIN utilisateur on note.idUtilisateur = utilisateur.idUtilisateur
                     INNER JOIN biere ON note.idBiere = biere.idBiere
-            WHERE note.idUtilisateur = :id";
+            WHERE note.idUtilisateur = :id ORDER BY NoteValeur " . $orderBy;
    try{
         $commande = $pdo->prepare($sql);
         $commande->bindParam(':id', $idUtilisateur, PDO::PARAM_INT);
@@ -113,6 +113,36 @@ function getNotes($idUtilisateur, &$NotesUtilisateurs){
 function ajouterUtilisateurSuivi($idUtilisateurSuiveur, $idUtilisateurSuivi){
     require('./modele/connectDB.php');
     $sql = "INSERT INTO suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES (:id1, :id2)";
+    try {
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id1', $idUtilisateurSuiveur, PDO::PARAM_INT);
+        $commande->bindParam(':id2', $idUtilisateurSuivi, PDO::PARAM_INT);
+        $bool = $commande->execute();
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec insert into : " . $e->getMessage . "\n"); die();
+    }
+}
+
+function existeUtilisateurSuivi($idUtilisateurSuiveur, $idUtilisateurSuivi){
+    require('./modele/connectDB.php');
+    $sql = "SELECT idUtilisateurSuivi FROM suit WHERE idUtilisateurSuiveur = :id1 AND idUtilisateurSuivi = :id2";
+    try{
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id1', $idUtilisateurSuiveur, PDO::PARAM_INT);
+        $commande->bindParam(':id2', $idUtilisateurSuivi, PDO::PARAM_INT);
+        $bool = $commande->execute();
+        if($bool){
+            $resultat = $commande->fetchAll(PDO::FETCH_ASSOC);
+        }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ return false; } else { return true; }
+}
+
+function desabonnerUtilisateur($idUtilisateurSuiveur, $idUtilisateurSuivi){
+    require('./modele/connectDB.php');
+    $sql ="DELETE FROM suit WHERE idUtilisateurSuiveur = :id1 AND idUtilisateurSuivi = :id2";
     try {
         $commande = $pdo->prepare($sql);
         $commande->bindParam(':id1', $idUtilisateurSuiveur, PDO::PARAM_INT);

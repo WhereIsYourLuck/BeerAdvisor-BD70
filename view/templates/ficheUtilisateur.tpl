@@ -8,15 +8,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </head>
 <?php include_once('./view/templates/menu.tpl');
+
+
 if($_GET['id'] != $_SESSION['idUtilisateur']){
-    echo "<a href=\"index.php?controller=utilisateur&action=suivreUtilisateur&id=" . $_GET['id'] . "\"><button class=\"btn btn-primary btn-sm\">Suivre</button></a>";
-} else { echo "<a href=\"index.php?controller=utilisateur&action=desabonnementUtilisateur&id=" . $_GET['id'] . "\"><button class=\"btn btn-primary btn-sm\">Se désabonner</button></a>"; }
+    if(!$EstSuivi){
+        echo "<a href=\"index.php?controller=utilisateur&action=suivreUtilisateur&id=" . $_GET['id'] . "\"><button class=\"btn btn-primary btn-sm\">Suivre</button></a>";
+    } else {
+        echo "<a href=\"index.php?controller=utilisateur&action=desabonnementUtilisateur&id=" . $_GET['id'] . "\"><button class=\"btn btn-primary btn-sm\">Se désabonner</button></a>";
+    }
+}
 ?>
 </form>
 </button>
 <p> Abonnements :
 <?php for($i = 0 ; $i < count($UtilisateursSuivis) ; $i++){
-    echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $UtilisateursSuivis[$i]['idUtilisateurSuivi'] . "\">" . $UtilisateursSuivis[$i]['nomUtilisateur'] . "</a>";
+    echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $UtilisateursSuivis[$i]['idUtilisateurSuivi'] . "&tri=ASC\">" . $UtilisateursSuivis[$i]['nomUtilisateur'] . "</a>";
     echo " "; } ?>
 
 <div class="container vw-70">
@@ -24,7 +30,16 @@ if($_GET['id'] != $_SESSION['idUtilisateur']){
     <table class="table table-striped table-responsive border">
         <tr>
             <th scope="col" class="text-center">Bière</th>
-            <th scope="col" class="text-center">Votre note</th>
+            <th scope="col" class="text-center">
+                <?php
+                    if($_GET['tri'] == "ASC"){
+                        echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=DESC\">Vos Notes</a>";;
+                    } else {
+                        echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=ASC\">Vos Notes</a>";
+                    }
+                
+                ?>
+            </th>
             <th scope="col" class="text-center">date de dégustation</th>
             <th scope="col" class="text-center">commentaire</th>
         </tr>

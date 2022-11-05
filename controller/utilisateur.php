@@ -7,9 +7,14 @@ function affichageInscription(){ require_once('./view/inscription.tpl'); }
 
 function affichageCompte(){
     require_once('./modele/utilisateurDB.php');
-    if(isset($_GET['id']) && is_numeric($_GET['id'])) {
+    if(isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['tri'])) {
         getUtilisateursSuivis($_GET['id'], $UtilisateursSuivis);
-        getNotes($_GET['id'], $NotesUtilisateurs);
+        if($_GET['tri'] == "DESC"){
+            getNotes($_GET['id'], $NotesUtilisateurs, "DESC");
+        } else {
+            getNotes($_GET['id'], $NotesUtilisateurs, "ASC");
+        }
+        $EstSuivi = existeUtilisateurSuivi($_SESSION['idUtilisateur'], $_GET['id']);
         require_once('./view/templates/ficheUtilisateur.tpl');
     } else { header("location: index.php?"); }
 }
@@ -21,7 +26,11 @@ function suivreUtilisateur(){
     affichageCompte();
 }
 
-function desabonnementUtilisateur(){}
+function desabonnementUtilisateur(){
+    require_once('./modele/utilisateurDB.php');
+    desabonnerUtilisateur($_SESSION['idUtilisateur'], $_GET['id']);
+    affichageCompte();
+}
 
 
 function donneesParId($idUtilisateur){
