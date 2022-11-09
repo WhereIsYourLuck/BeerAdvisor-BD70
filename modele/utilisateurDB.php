@@ -89,13 +89,13 @@ function getRecommandations($idSuiveur, &$recommandations){
     else { $recommandations = $resultat; return true; }
 }
 
-function getNotes($idUtilisateur, &$NotesUtilisateurs, $orderBy){
+function getNotes($idUtilisateur, &$NotesUtilisateurs, $orderBy, $orderBy2){
     require('./modele/connectDB.php');
-    $sql = "SELECT note.idBiere, biere.nomBiere, note.idUtilisateur, utilisateur.nomUtilisateur, note.noteValeur, note.commentaireBiere, note.dateDegustation
+    $sql = "SELECT note.idBiere, biere.nomBiere, biere.noteMoyBiere, note.idUtilisateur, utilisateur.nomUtilisateur, note.noteValeur, note.commentaireBiere, note.dateDegustation
                 FROM note
                     INNER JOIN utilisateur on note.idUtilisateur = utilisateur.idUtilisateur
                     INNER JOIN biere ON note.idBiere = biere.idBiere
-            WHERE note.idUtilisateur = :id ORDER BY NoteValeur " . $orderBy;
+            WHERE note.idUtilisateur = :id ORDER BY " . $orderBy2 . " ". $orderBy;
    try{
         $commande = $pdo->prepare($sql);
         $commande->bindParam(':id', $idUtilisateur, PDO::PARAM_INT);
@@ -151,4 +151,19 @@ function desabonnerUtilisateur($idUtilisateurSuiveur, $idUtilisateurSuivi){
     } catch (PDOException $e) { 
         echo utf__encode("Echec insert into : " . $e->getMessage . "\n"); die();
     }
+}
+
+function getBiereSuiveur($idSuivi, &$BiereCommenteesSuiveur){
+    require('./modele/connectDB.php');
+    $sql = "SELECT biere.nomBiere, note.idBiere FROM note INNER JOIN biere ON note.idBiere = biere.idBiere WHERE note.idUtilisateur = :id";
+   try{
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id', $idSuivi, PDO::PARAM_INT);
+        $bool = $commande->execute();
+        if($bool){ $resultat = $commande->fetchAll(PDO::FETCH_ASSOC); }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ $BiereCommenteesSuiveur = array(); return false; }
+    else { $BiereCommenteesSuiveur = $resultat; return true; }
 }

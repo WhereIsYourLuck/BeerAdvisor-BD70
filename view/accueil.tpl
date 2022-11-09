@@ -8,26 +8,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </head>
 <body>
-    <?php include_once('./view/templates/menu.tpl'); ?>
-    <br>
-    <!-- <div class="d-flex justify-content-center flex-nowrap h-100">      
-        <form action="index.php?controller=serviceInfo&action=connexionSI" method="post">
-            <div class="form-row">
-                <div>
-                    <label for="ident">Identifiant : </label><br>
-                    <input type="text" class="form-control" type="text" id="ident" name="ident" placeholder="" required>
-                </div>
-                <div class="col">
-                    <label for="pwd">Mot de passe : </label><br>
-                    <input type="password" id="pwd" name="pwd" class="form-control" required><br>
-                </div>
-                <div class="col">
-                    <input class="btn btn-secondary" type="submit" name="submit" value="Se connecter"><br>
-                </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div> -->
+    <?php include_once('./view/templates/menu.tpl'); ?> <br>
+<div class="container vw-70">
+    <div class="row">
+        <table class="table table-striped table-responsive border table-sm">
+        </tr>
+            <th scope="col" class="text-center">Nom</th>
+            <th scope="col" class="text-center">Note Moyenne</th>
+            <th scope="col" class="text-center">Taux Alcool</th>
+            <th scope="col" class="text-center"> </th>
+        </tr>
+        <?php
+            for($i = 0; $i < count($listeBieresResultat); $i++){
+                echo "<tr>";
+                echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['nomBiere'] . "</th>";
+                echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['noteMoyBiere'] . "</th>";
+                echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['tauxAlcool'] . "</th>";
+                echo "<th scope=\"row\" class=\"text-center\"><a href=\"index.php?controller=biere&action=&idBiere=" . $listeBieresResultat[$i]['idBiere'] . "\"><button class=\"btn btn-primary btn-sm\">Caractéristiques</button></a></th>";
+                echo "<tr>";
+            }
+            ?>
+        </table>
+    </div>
+</div>
+
+    
 </body>
 </html> 

@@ -13,8 +13,8 @@
         $controller = $_GET['controller'];
         $action     = $_GET['action'];
     } else {
-        $controller = "utilisateur";
-        $action     = "accueil";
+        $controller = "biere";
+        $action     = "affichageAccueil";
     }
 
 /*-------------------------Bloque le changement manuel des liens----------------------------*/
