@@ -1,19 +1,36 @@
 <?php
 
 function affichageAccueil(){
-    require('./modele/connectDB.php');
-    require('./modele/biereDB.php');
+    require_once('./modele/biereDB.php');
     listeBieres($listeBieresResultat);
     require_once('./view/accueil.tpl');
 }
 
 function affichageBiere(){
-    if(isset($_GET['idBiere'])){
-
-    } else {
-        
-    }
-    require_once('./view./templates/ficheBiere.tpl');
+    require_once('./modele/biereDB.php');
+    if(isset($_GET['idBiere'])){ 
+        infoBiere($_GET['idBiere'], $infosBiere);
+        commentairesBiere($_GET['idBiere'], $commentairesBiere);
+        if(isset($_SESSION['idUtilisateur'])) {
+            $recommande = utilisateurRecommandeBiere($_SESSION['idUtilisateur'], $_GET['idBiere']);
+        } else { $recommande = -1; }
+     } else { header("location: index.php?"); }
+    require('./view./templates/ficheBiere.tpl');
 }
 
-return array('affichageAccueil', 'affichageBiere');
+function recommanderBiere(){
+    require_once('./modele/biereDB.php');
+    //On fait pas de verif si l'utilisateur est pas déjà suiveur par le 1er user car c'est checké dans la bdd
+    if(isset($_SESSION['idUtilisateur']) && isset($_GET['idBiere'])) {
+        ajouterRecommandationBiere($_SESSION['idUtilisateur'], intval($_GET['idBiere'])); affichageBiere();
+    } else { header("location: index.php?"); }
+}
+
+function retirerRecommanderBiere(){
+    require_once('./modele/biereDB.php');
+    if(isset($_SESSION['idUtilisateur'])) {
+        affichageBiere();
+    } else { header("location: index.php?"); }
+}
+
+return array('affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere');
