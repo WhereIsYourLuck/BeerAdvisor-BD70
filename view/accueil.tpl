@@ -14,8 +14,8 @@
         <table class="table table-striped table-responsive border table-sm">
         </tr>
             <th scope="col" class="text-center">Nom</th>
-            <th scope="col" class="text-center">Note Moyenne</th>
-            <th scope="col" class="text-center">Taux Alcool</th>
+            <th scope="col" class="text-center">Note Moyenne / 5</th>
+            <th scope="col" class="text-center">Taux Alcool en %</th>
             <th scope="col" class="text-center"> </th>
         </tr>
         <?php
@@ -23,8 +23,8 @@
                 echo "<tr>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['nomBiere'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['noteMoyBiere'] . "</th>";
-                echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['tauxAlcool'] . "</th>";
-                echo "<th scope=\"row\" class=\"text-center\"><a href=\"index.php?controller=biere&action=&idBiere=" . $listeBieresResultat[$i]['idBiere'] . "\"><button class=\"btn btn-primary btn-sm\">Caractéristiques</button></a></th>";
+                echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['tauxAlcool'] . "%</th>";
+                echo "<th scope=\"row\" class=\"text-center\"><a href=\"index.php?controller=biere&action=affichageBiere&idBiere=" . $listeBieresResultat[$i]['idBiere'] . "\"><button class=\"btn btn-primary btn-sm\">Caractéristiques</button></a></th>";
                 echo "<tr>";
             }
             ?>

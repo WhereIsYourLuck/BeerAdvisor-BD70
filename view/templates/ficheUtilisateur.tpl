@@ -9,7 +9,6 @@
 </head>
 <?php include_once('./view/templates/menu.tpl');
 
-
 if(isset($_SESSION['idUtilisateur']) && $_GET['id'] != $_SESSION['idUtilisateur'] && $_SESSION['idUtilisateur'] != -1){
     if(!$EstSuivi){
         echo "<a href=\"index.php?controller=utilisateur&action=suivreUtilisateur&id=" . $_GET['id'] . "\"><button class=\"btn btn-primary btn-sm\">Suivre</button></a>";
@@ -42,7 +41,7 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
 
 <div class="container vw-70">
 <div class="row">
-    <table class="table table-striped table-responsive border">
+    <table class="table table-striped table-responsive border table-sm">
         <tr>
             <th scope="col" class="text-center">Bière</th>
             <th scope="col" class="text-center">

@@ -7,4 +7,13 @@ function affichageAccueil(){
     require_once('./view/accueil.tpl');
 }
 
-return array('affichageAccueil');
+function affichageBiere(){
+    if(isset($_GET['idBiere'])){
+
+    } else {
+        
+    }
+    require_once('./view./templates/ficheBiere.tpl');
+}
+
+return array('affichageAccueil', 'affichageBiere');

@@ -3,7 +3,6 @@
 	$base= "beeradvisor";
 	$loginBD= "root";	//ou "root"
 	$passBD="root";
-	//$pdo = null;
 
 try {
 
