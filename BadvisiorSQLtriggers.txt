@@ -278,5 +278,10 @@ INSERT INTO TypeHoublon(nomHoublon) VALUES("summit");
 INSERT INTO TypeLevure(nomLevure) VALUES("ales");
 INSERT INTO TypeLevure(nomLevure) VALUES("lager");
 INSERT INTO TypeLevure(nomLevure) VALUES("sauvages");
+
+INSERT INTO possedehoublon (idBiere, idHoublon) VALUES (1, 6), (2, 5), (3, 4), (4, 1), (4, 5), (4, 6), (5, 2), (5, 4), (6, 3), (7, 5), (7, 6), (7, 7), (8, 2), (8, 3), (9, 1), (9, 2), (9, 7), (10, 3), (10, 4), (11, 6);
+INSERT INTO possedelevure (idBiere, idLevure) VALUES (1, 2), (2, 3), (3, 1), (4, 1), (5, 3), (6, 3), (7, 3), (8, 1), (9, 2), (10, 3), (11, 2);
+INSERT INTO possedemalt (idBiere, idMalt) VALUES (1, 3), (1, 4), (2, 3), (2, 8), (2, 9), (3, 3), (4, 3), (5, 3), (5, 15), (6, 3), (7, 3), (8, 3), (9, 3), (10, 3), (11, 1), (11, 3);
+
 -- ----------------------------------------------- DATA ---------------------------------------------------------------
 
