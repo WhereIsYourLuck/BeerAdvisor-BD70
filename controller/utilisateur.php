@@ -79,12 +79,14 @@ function deconnexion(){
 }
 
 function ajouterCommentaire(){
-
+    
 }
 
 function supprimerCommentaire(){
     require_once('./modele/utilisateurDB.php'); 
-    var_dump(existeCommentaire($_SESSION['idUtilisateur'], $_GET['idBiere']));
+    if(existeCommentaire($_SESSION['idUtilisateur'], $_GET['idBiere'])){
+        supprimerCommentaireBiere($_SESSION['idUtilisateur'], $_GET['idBiere']);
+    }
     affichageCompte();
 }
 

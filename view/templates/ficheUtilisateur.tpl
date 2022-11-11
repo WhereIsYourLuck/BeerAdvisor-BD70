@@ -35,7 +35,7 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
 </p>
 <p>Les coups de coeur (recommandations): 
 <?php for($i = 0 ; $i < count($recommandations) ; $i++){
-    echo "<a href=\"index.php?controller=&action=&idBiere=" . $recommandations[$i]['idBiere'] . "\">" . $recommandations[$i]['nomBiere'] . "</a>";
+    echo "<a href=\"index.php?controller=biere&action=affichageBiere&idBiere=" . $recommandations[$i]['idBiere'] . "\">" . $recommandations[$i]['nomBiere'] . "</a>";
     echo " "; } ?>
 </p>
 
@@ -51,7 +51,7 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
             <th scope="col" class="text-center">
                 <?php
                     if($_GET['tri'] == "ASC"){
-                        echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=DESC&tri2=noteValeur\">Notes</a>";;
+                        echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=DESC&tri2=noteValeur\">Notes</a>";
                     } else {
                         echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=ASC&tri2=noteValeur\">Notes</a>";
                     }
@@ -78,7 +78,7 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
                     echo "<th scope=\"row\" class=\"text-center\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=supprimerCommentaire&tri=ASC&tri2=noteValeur&id=" . $_SESSION['idUtilisateur'] . "&idBiere=" . $NotesUtilisateurs[$i]['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Supprimer</button></a></th>";
                 }
                 
-                echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['nomBiere'] . "</th>";
+                echo "<th scope=\"row\" class=\"text-center\"><a href=\"index.php?controller=biere&action=affichageBiere&idBiere=". $NotesUtilisateurs[$i]['idBiere']. "\">" . $NotesUtilisateurs[$i]['nomBiere'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['noteValeur'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['noteMoyBiere'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['dateDegustation'] . "</th>";

@@ -184,3 +184,16 @@ function getBiereSuiveur($idSuivi, &$BiereCommenteesSuiveur){
     if(count($resultat) == 0){ $BiereCommenteesSuiveur = array(); return false; }
     else { $BiereCommenteesSuiveur = $resultat; return true; }
 }
+
+function supprimerCommentaireBiere($idUtilisateur, $idBiere){
+    require('./modele/connectDB.php');
+    $sql = "DELETE FROM note WHERE idBiere = :id1 AND idUtilisateur = :id2";
+    try {
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id1', $idBiere, PDO::PARAM_INT);
+        $commande->bindParam(':id2', $idUtilisateur, PDO::PARAM_INT);
+        $bool = $commande->execute();
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec DELETE FROM note : " . $e->getMessage . "\n"); die();
+    }
+}

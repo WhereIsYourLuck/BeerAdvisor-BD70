@@ -40,4 +40,10 @@ function retirerRecommanderBiere(){
     } else { header("location: index.php?"); }
 }
 
-return array('affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere',);
+function supprimerBiere(){
+    require_once('./modele/biereDB.php');
+    if(isset($_SESSION['idTypeUtilisateur']) && ($_SESSION['idTypeUtilisateur'] == 1)) {
+        SupprimerBiereDB(intval($_GET['idBiere'])); affichageAccueil();
+    } else { header("location: index.php?"); }
+}
+return array('affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere', 'supprimerBiere');

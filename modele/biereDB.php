@@ -89,3 +89,15 @@ function supprimerRecommandationBiere($idUtilisateur, $idBiere){
         echo utf__encode("Echec DELETE FROM recommande : " . $e->getMessage . "\n"); die();
     }
 }
+
+function supprimerBiereDB($idBiere){
+    require('./modele/connectDB.php');
+    $sql = "DELETE FROM biere WHERE idBiere = :id1";
+    try {
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id1', $idBiere, PDO::PARAM_INT);
+        $bool = $commande->execute();
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec DELETE FROM note : " . $e->getMessage . "\n"); die();
+    }
+}

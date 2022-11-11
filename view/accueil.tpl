@@ -13,6 +13,7 @@
     <div class="row">
         <table class="table table-striped table-responsive border table-sm">
         </tr>
+            <?php if(isset($_SESSION['idTypeUtilisateur']) && ($_SESSION['idTypeUtilisateur'] == 1)){ echo "<th scope=\"col\" class=\"text-center\"></th>"; } ?>
             <th scope="col" class="text-center">Nom</th>
             <th scope="col" class="text-center">Note Moyenne / 5</th>
             <th scope="col" class="text-center">Taux Alcool en %</th>
@@ -21,6 +22,9 @@
         <?php
             for($i = 0; $i < count($listeBieresResultat); $i++){
                 echo "<tr>";
+                if(isset($_SESSION['idTypeUtilisateur']) && ($_SESSION['idTypeUtilisateur'] == 1)){
+                    echo "<th scope=\"row\" class=\"text-center\"><a href=\"index.php?controller=biere&action=supprimerBiere&idBiere=" . $listeBieresResultat[$i]['idBiere'] . "\"><button class=\"btn btn-primary btn-sm\">Supprimer Biere</button></a></th>";
+                }
                 echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['nomBiere'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['noteMoyBiere'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $listeBieresResultat[$i]['tauxAlcool'] . "%</th>";

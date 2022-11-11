@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="index.php?controller=utilisateur&action=accueil">
+		<a class="navbar-brand" href="index.php?">
             BeerAdvisor
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
