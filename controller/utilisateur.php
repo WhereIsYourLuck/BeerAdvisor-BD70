@@ -78,4 +78,14 @@ function deconnexion(){
     header('location: index.php?');
 }
 
-return array('accueil', 'affichageInscription','affichageConnexion', 'affichageCompte', 'connexion', 'inscription', 'deconnexion', 'suivreUtilisateur', 'desabonnementUtilisateur');
+function ajouterCommentaire(){
+
+}
+
+function supprimerCommentaire(){
+    require_once('./modele/utilisateurDB.php'); 
+    var_dump(existeCommentaire($_SESSION['idUtilisateur'], $_GET['idBiere']));
+    affichageCompte();
+}
+
+return array('ajouterCommentaire', 'supprimerCommentaire', 'accueil', 'affichageInscription','affichageConnexion', 'affichageCompte', 'connexion', 'inscription', 'deconnexion', 'suivreUtilisateur', 'desabonnementUtilisateur');

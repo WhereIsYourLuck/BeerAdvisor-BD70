@@ -13,7 +13,7 @@
         if(!$recommande){
             echo "<a href=\"index.php?controller=biere&action=recommanderBiere&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Recommander</button></a>";
         } else {
-            echo "<a href=\"index.php?controller=biere&action=retirerRecommanderBiere\"><button class=\"btn btn-primary btn-sm\">Ne plus recommander</button></a>";
+            echo "<a href=\"index.php?controller=biere&action=retirerRecommanderBiere&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Ne plus recommander</button></a>";
         }
     }
     ?>
@@ -23,6 +23,14 @@
     Note moyenne Bière : <?php
     if($infosBiere[0]['noteMoyBiere'] == NULL) { echo "<b><i>Pas de notes</i></b>"; } else { echo $infosBiere[0]['noteMoyBiere']; } ?>
 
+<div class="container vw-70">
+    <form action="" method="post">
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+        </div>
+    </form>
+</div> 
 <?php
 for($i = 0; $i < count($commentairesBiere) ; $i++){
     echo "<div class=\"container vw-70 d-flex flex-column border border-dark border-rounded\">";

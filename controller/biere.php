@@ -26,11 +26,18 @@ function recommanderBiere(){
     } else { header("location: index.php?"); }
 }
 
-function retirerRecommanderBiere(){
+function supprimerRecommandation(){
     require_once('./modele/biereDB.php');
-    if(isset($_SESSION['idUtilisateur'])) {
-        affichageBiere();
+    if(isset($_SESSION['idUtilisateur']) && isset($_GET['idBiere'])) {
+        supprimerRecommandationBiere($_SESSION['idUtilisateur'], intval($_GET['idBiere'])); affichageBiere();
     } else { header("location: index.php?"); }
 }
 
-return array('affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere');
+function retirerRecommanderBiere(){
+    require_once('./modele/biereDB.php');
+    if(isset($_SESSION['idUtilisateur'])) {
+        supprimerRecommandationBiere($_SESSION['idUtilisateur'], intval($_GET['idBiere'])); affichageBiere();
+    } else { header("location: index.php?"); }
+}
+
+return array('affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere',);

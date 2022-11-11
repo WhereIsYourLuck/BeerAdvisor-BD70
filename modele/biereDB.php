@@ -52,8 +52,8 @@ function utilisateurRecommandeBiere($idUtilisateur, $idBiere){
     $sql = "SELECT * FROM recommande WHERE idBiere = :id1 AND idUtilisateur = :id2";
     try{
         $commande = $pdo->prepare($sql);
-        $commande->bindParam(':id1', $idUtilisateur, PDO::PARAM_INT);
-        $commande->bindParam(':id2', $idBiere, PDO::PARAM_INT);
+        $commande->bindParam(':id2', $idUtilisateur, PDO::PARAM_INT);
+        $commande->bindParam(':id1', $idBiere, PDO::PARAM_INT);
         $bool = $commande->execute();
         if($bool){
             $resultat = $commande->fetchAll(PDO::FETCH_ASSOC);
@@ -74,5 +74,18 @@ function ajouterRecommandationBiere($idUtilisateur, $idBiere){
         $bool = $commande->execute();
     } catch (PDOException $e) { 
         echo utf__encode("Echec insert into : " . $e->getMessage . "\n"); die();
+    }
+}
+
+function supprimerRecommandationBiere($idUtilisateur, $idBiere){
+    require('./modele/connectDB.php');
+    $sql = "DELETE FROM recommande WHERE idBiere = :id1 AND idUtilisateur = :id2";
+    try {
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id1', $idBiere, PDO::PARAM_INT);
+        $commande->bindParam(':id2', $idUtilisateur, PDO::PARAM_INT);
+        $bool = $commande->execute();
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec DELETE FROM recommande : " . $e->getMessage . "\n"); die();
     }
 }

@@ -110,6 +110,23 @@ function getNotes($idUtilisateur, &$NotesUtilisateurs, $orderBy, $orderBy2){
     else { $NotesUtilisateurs = $resultat; return true; }
 }
 
+function existeCommentaire($idUtilisateur, $idBiere){
+    require('./modele/connectDB.php');
+    $sql = "SELECT idUtilisateur FROM note WHERE idBiere = :id1 AND idUtilisateur = :id2";
+    try{
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id2', $idUtilisateur, PDO::PARAM_INT);
+        $commande->bindParam(':id1', $idBiere, PDO::PARAM_INT);
+        $bool = $commande->execute();
+        if($bool){
+            $resultat = $commande->fetchAll(PDO::FETCH_ASSOC);
+        }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ return false; } else { return true; }
+}
+
 function ajouterUtilisateurSuivi($idUtilisateurSuiveur, $idUtilisateurSuivi){
     require('./modele/connectDB.php');
     $sql = "INSERT INTO suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES (:id1, :id2)";

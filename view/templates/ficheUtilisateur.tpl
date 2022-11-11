@@ -43,6 +43,10 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
 <div class="row">
     <table class="table table-striped table-responsive border table-sm">
         <tr>
+            <?php
+            if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id'])){
+               echo "<th scope=\"col\" class=\"text-center\"></th>";
+            } ?>
             <th scope="col" class="text-center">Bière</th>
             <th scope="col" class="text-center">
                 <?php
@@ -70,6 +74,10 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
             <?php
             for($i = 0 ; $i < count($NotesUtilisateurs) ; $i++){
                 echo "<tr>";
+                if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id'])){
+                    echo "<th scope=\"row\" class=\"text-center\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=supprimerCommentaire&tri=ASC&tri2=noteValeur&id=" . $_SESSION['idUtilisateur'] . "&idBiere=" . $NotesUtilisateurs[$i]['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Supprimer</button></a></th>";
+                }
+                
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['nomBiere'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['noteValeur'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['noteMoyBiere'] . "</th>";
