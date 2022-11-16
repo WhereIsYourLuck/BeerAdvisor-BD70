@@ -129,7 +129,7 @@ function existeUtilisateurSuivi($idUtilisateurSuiveur, $idUtilisateurSuivi){
     try{
         $commande = $pdo->prepare($sql);
         $commande->bindParam(':id1', $idUtilisateurSuiveur, PDO::PARAM_INT);
-        $commande->bindParam(':id2', $idUtilisateurSuivi, PDO::PARAM_INT);
+        $commande->bindParam(':id2', $idUtilisateurSuivi, PDO::P²RAM_INT);
         $bool = $commande->execute();
         if($bool){
             $resultat = $commande->fetchAll(PDO::FETCH_ASSOC);
