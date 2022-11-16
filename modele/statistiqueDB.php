@@ -31,4 +31,19 @@ function BiereSaisies(&$nbrBiere){
         $nbrBiere = $resultat; return true;
     }
 }
-    
+
+function nbrAdmin(&$nbrAdmin){
+    require('./modele/connectDB.php');
+    $sql = " ";
+    try {
+        $commande = $pdo->prepare($sql);
+        $bool = $commande->execute();
+        if($bool){ $resultat = $commande->fetchAll(PDO::FETCH_ASSOC); }
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec insert into : " . $e->getMessage . "\n"); die();
+    }
+    if(count($resultat) == 0){ $nbrAdmin = array(); return false; } 
+    else {
+        $nbrAdmin = $resultat; return true;
+    }
+}
