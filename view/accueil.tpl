@@ -8,7 +8,68 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </head>
 <body>
-    <?php include_once('./view/templates/menu.tpl'); ?> <br>
+    <?php include_once('./view/templates/menu.tpl');?> <br>
+
+<div class="container">
+    <form class="form-inline">
+        <div class="row">
+            <div class="col">
+                <label for="exampleFormControlSelect1 text-center">Bièree</label>
+                <input type="text" class="form-control" placeholder="nom" id="nomBiere">
+            </div>
+            <div class="col">
+                <label for="exampleFormControlSelect1">note moyenne entre</label>
+                <select class="form-control" id="note moyenne">
+                    <option values="">1-2</option>
+                    <option values="">2-3</option>
+                    <option values="">3-4</option>
+                    <option values="">4-5</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="exampleFormControlSelect1">Taux d'alcool minimum</label>
+                <input type="text" class="form-control" placeholder="nom" id="taux">
+            </div>
+            <div class="col">
+                <label for="exampleFormControlSelect1">Par houblon</label>
+                <select class="form-control" id="houblon">
+                    <option values="-1"> </option>
+                    <?php
+                        foreach($houblons as $p){
+                            echo "<option values=" . $p['idHoublon'] . ">" . $p['nomHoublon'] . "</option>";
+                        }
+                    ?>
+                </select>
+            </div>
+            <div class="col">
+                <label for="exampleFormControlSelect1">Par malt</label>
+                <select class="form-control" id="malt">
+                    <option values="-1"> </option>
+                    <?php
+                        foreach($malts as $p){
+                            echo "<option values=" . $p['idMalt'] . ">" . $p['nomMalt'] . "</option>";
+                        }
+                    ?>
+                </select>
+            </div>
+            <div class="col">
+                <label for="exampleFormControlSelect1">Par levure</label>
+                <select class="form-control" id="malt">
+                    <option values="-1"> </option>
+                    <?php
+                        foreach($levures as $p){
+                            echo "<option values=" . $p['idLevure'] . ">" . $p['nomLevure'] . "</option>";
+                        }
+                    ?>
+                </select>
+            </div>
+            <div class="col">
+            <label for="exampleFormControlSelect1"></label>
+            <button type="submit" class="btn btn-primary mb-2">Rechercher</button>
+            </div>
+        </div>
+    </form>
+<div>
 <div class="container vw-70">
     <div class="row">
         <table class="table table-striped table-responsive border table-sm">
@@ -59,7 +120,6 @@
         </table>
     </div>
 </div>
-
     
 </body>
 </html> 

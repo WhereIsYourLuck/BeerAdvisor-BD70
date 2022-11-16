@@ -115,3 +115,49 @@ function supprimerBiereDB($idBiere){
         echo utf__encode("Echec DELETE FROM note : " . $e->getMessage . "\n"); die();
     }
 }
+
+function getHoublons(&$houblons){
+    require('./modele/connectDB.php');
+    $sql = "SELECT * FROM typeHoublon";
+    try{
+        $commande = $pdo->prepare($sql);
+        $bool = $commande->execute();
+        if($bool){
+            $resultat = $commande->fetchAll(PDO::FETCH_ASSOC);
+        }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ $houblons = array(); return false; }
+    else { $houblons = $resultat; return true; }
+}
+function getMalts(&$Malts){
+    require('./modele/connectDB.php');
+    $sql = "SELECT * FROM typeMalt";
+    try{
+        $commande = $pdo->prepare($sql);
+        $bool = $commande->execute();
+        if($bool){
+            $resultat = $commande->fetchAll(PDO::FETCH_ASSOC);
+        }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ $Malts = array(); return false; }
+    else { $Malts = $resultat; return true; }
+}
+function getLevures(&$levures){
+    require('./modele/connectDB.php');
+    $sql = "SELECT * FROM typeLevure";
+    try{
+        $commande = $pdo->prepare($sql);
+        $bool = $commande->execute();
+        if($bool){
+            $resultat = $commande->fetchAll(PDO::FETCH_ASSOC);
+        }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ $levures = array(); return false; }
+    else { $levures = $resultat; return true; }
+}

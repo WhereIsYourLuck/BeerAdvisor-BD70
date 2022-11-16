@@ -3,6 +3,9 @@
 function affichageAccueil(){
     require_once('./modele/biereDB.php');
     listeBieres($listeBieresResultat);
+    getMalts($malts);
+    getLevures($levures);
+    getHoublons($houblons);
     require_once('./view/accueil.tpl');
 }
 
@@ -10,6 +13,9 @@ function affichageAccueilTrie(){
     require_once('./modele/biereDB.php');
     if(isset($_GET['tri']) && isset($_GET['tri2']) && ($_GET['tri'] == "nomBiere" || $_GET['tri'] == "tauxAlcool" || $_GET['tri'] == "noteMoyBiere") && ($_GET['tri2'] == "DESC" || $_GET['tri2'] == "ASC")){
         listeBieresTriees($_GET['tri'], $_GET['tri2'], $listeBieresResultat);
+        getMalts($malts);
+        getLevures($levures);
+        getHoublons($houblons);
     } else {
         header("location: index.php?");
     }
