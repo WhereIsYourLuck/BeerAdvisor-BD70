@@ -61,11 +61,10 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
             <th scope="col" class="text-center">
                 <?php
                     if($_GET['tri'] == "ASC"){
-                        echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=DESC&tri2=noteMoyBiere\">Moyenne Bière</a>";;
+                        echo "<a href=\"index.php?controller=utilisateur&action=affichageAccueilTrie&id=tri=DESC&tri2=noteMoyBiere\">Moyenne Bière</a>";;
                     } else {
                         echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=ASC&tri2=noteMoyBiere\">Moyenne Bière</a>";
                     }
-                
                 ?>
             </th>
             <th scope="col" class="text-center">date de dégustation</th>

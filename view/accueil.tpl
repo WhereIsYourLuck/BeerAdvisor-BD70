@@ -14,9 +14,33 @@
         <table class="table table-striped table-responsive border table-sm">
         </tr>
             <?php if(isset($_SESSION['idTypeUtilisateur']) && ($_SESSION['idTypeUtilisateur'] == 1)){ echo "<th scope=\"col\" class=\"text-center\"></th>"; } ?>
-            <th scope="col" class="text-center">Nom</th>
-            <th scope="col" class="text-center">Note Moyenne / 5</th>
-            <th scope="col" class="text-center">Taux Alcool en %</th>
+            <th scope="col" class="text-center">
+            <?php
+                    if(isset($_GET['tri2']) && $_GET['tri2'] == "ASC"){
+                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=nomBiere&tri2=DESC\">nom</a>";
+                    } else {
+                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=nomBiere&tri2=ASC\">nom</a>";
+                    }
+            ?>
+            </th>
+            <th scope="col" class="text-center">
+            <?php
+                    if(isset($_GET['tri2']) && $_GET['tri2'] == "ASC"){
+                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=noteMoyBiere&tri2=DESC\">note moyenne / 5</a>";
+                    } else {
+                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=noteMoyBiere&tri2=ASC\">note moyenne / 5</a>";
+                    }
+            ?>
+            </th>
+            <th scope="col" class="text-center">
+            <?php
+                    if(isset($_GET['tri2']) && $_GET['tri2'] == "ASC"){
+                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=tauxAlcool&tri2=DESC\">Taux d'alcool en %</a>";
+                    } else {
+                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=tauxAlcool&tri2=ASC\">Taux d'alcool en %</a>";
+                    }
+            ?>
+            </th>
             <th scope="col" class="text-center"> </th>
         </tr>
         <?php

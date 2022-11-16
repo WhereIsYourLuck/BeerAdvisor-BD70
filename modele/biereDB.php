@@ -29,6 +29,20 @@ function infoBiere($idBiere, &$infosBiere){
     else { $infosBiere = $resultat; return true; }
 }
 
+function listeBieresTriees($type, $sensOrder, &$listeBieresResultat){
+    require('./modele/connectDB.php');
+    $sql = "SELECT * FROM biere ORDER BY " . $type . " " . $sensOrder;
+    try{
+        $commande = $pdo->prepare($sql);
+        $bool = $commande->execute();
+        if($bool){ $resultat = $commande->fetchAll(PDO::FETCH_ASSOC); }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ $listeBieresResultat = array(); return false; }
+    else { $listeBieresResultat = $resultat; return true; }
+}
+
 function commentairesBiere($idBiere, &$commantairesBiere){
     require('./modele/connectDB.php');
     $sql = "SELECT utilisateur.idUtilisateur , utilisateur.nomUtilisateur, note.noteValeur, note.dateDegustation, note.commentaireBiere
