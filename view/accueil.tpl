@@ -14,7 +14,7 @@
     <form class="form-inline">
         <div class="row">
             <div class="col">
-                <label for="exampleFormControlSelect1 text-center">Bièree</label>
+                <label for="exampleFormControlSelect1 text-center">Bière</label>
                 <input type="text" class="form-control" placeholder="nom" id="nomBiere">
             </div>
             <div class="col">
@@ -64,11 +64,11 @@
                 </select>
             </div>
             <div class="col">
-            <label for="exampleFormControlSelect1"></label>
             <button type="submit" class="btn btn-primary mb-2">Rechercher</button>
             </div>
         </div>
     </form>
+    <br>
 <div>
 <div class="container vw-70">
     <div class="row">

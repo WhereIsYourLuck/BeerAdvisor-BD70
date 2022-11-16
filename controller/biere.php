@@ -24,11 +24,13 @@ function affichageAccueilTrie(){
 
 function affichageBiere(){
     require_once('./modele/biereDB.php');
+    require_once('./modele/utilisateurDB.php');
     if(isset($_GET['idBiere'])){ 
         infoBiere($_GET['idBiere'], $infosBiere);
         commentairesBiere($_GET['idBiere'], $commentairesBiere);
         if(isset($_SESSION['idUtilisateur'])) {
             $recommande = utilisateurRecommandeBiere($_SESSION['idUtilisateur'], $_GET['idBiere']);
+            $estCommentee = existeCommentaire($_SESSION['idUtilisateur'], $_GET['idBiere']);
         } else { $recommande = -1; }
      } else { header("location: index.php?"); }
     require('./view./templates/ficheBiere.tpl');
@@ -62,5 +64,10 @@ function supprimerBiere(){
     if(isset($_SESSION['idTypeUtilisateur']) && ($_SESSION['idTypeUtilisateur'] == 1)) {
         SupprimerBiereDB(intval($_GET['idBiere'])); affichageAccueil();
     } else { header("location: index.php?"); }
+}
+
+
+function rechercheBiere(){
+    
 }
 return array('affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere', 'supprimerBiere', 'affichageAccueilTrie');

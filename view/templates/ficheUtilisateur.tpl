@@ -27,7 +27,7 @@ if(isset($_SESSION['idUtilisateur']) && $_GET['id'] != $_SESSION['idUtilisateur'
 <p> Bières commentées par les utilisateurs suivis : 
 <?php
 for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
-    echo "<a href=\"index.php?controller=biere&action=&idBiere=" . $unserializedBiereCommenteesSuiveur[$i]['idBiere'] . "\">" . $unserializedBiereCommenteesSuiveur[$i]['nomBiere'] . "</a>";
+    echo "<a href=\"index.php?controller=biere&action=affichageBiere&idBiere=" . $unserializedBiereCommenteesSuiveur[$i]['idBiere'] . "\">" . $unserializedBiereCommenteesSuiveur[$i]['nomBiere'] . "</a>";
     echo " ";
 }
 ?>
@@ -61,7 +61,7 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
             <th scope="col" class="text-center">
                 <?php
                     if($_GET['tri'] == "ASC"){
-                        echo "<a href=\"index.php?controller=utilisateur&action=affichageAccueilTrie&id=tri=DESC&tri2=noteMoyBiere\">Moyenne Bière</a>";;
+                        echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=DESC&tri2=noteMoyBiere\">Moyenne Bière</a>";;
                     } else {
                         echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=ASC&tri2=noteMoyBiere\">Moyenne Bière</a>";
                     }

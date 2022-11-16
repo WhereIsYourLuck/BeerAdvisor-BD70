@@ -23,15 +23,32 @@
     Note moyenne Bière : <?php
     if($infosBiere[0]['noteMoyBiere'] == NULL) { echo "<b><i>Pas de notes</i></b>"; } else { echo $infosBiere[0]['noteMoyBiere']; } ?>
 
-<div class="container vw-70">
-    <form action="" method="post">
-        <div class="form-group">
-        </div>
-        <div class="form-group">
-        </div>
-    </form>
-</div> 
+<br>
 <?php
+if(isset($_SESSION['idUtilisateur']) && (!$estCommentee)){
+    echo "<div class=\"container vw-70\">
+    <form class=\"form-inline\" method=\"POST\" action=\"index.php?controller=utilisateur&action=ajouterCommentaire&idBiere=" . $_GET['idBiere'] ."\" >
+        <div class=\"row\">
+            <div class=\"col\">
+                <label for=\"note\">Votre Note</label>
+                <input type=\"number\" class=\"form-control\" placeholder=\"0.0\" id=\"note\" name=\"note\" step=\"0.1\" min=\"0\" max=\"5\" required>
+            </div>
+            <div class=\"col\">
+                <label for=\"dateDegustation\">Date de dégustation yyyy-mm-dd</label>
+                <input type=\"text\" id=\"dateDegustation\" name=\"dateDegustation\" class=\"datepicker form-control\" pattern=\"(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))\" placeholder=\"YYYY-MM-DD\" name=\"date\" value=\"\"/>
+            </div>
+            <div class=\"form-group\">
+                <label for=\"commentaire\">Votre commentaire (max 300 caractères) : </label>
+                <input class=\"form-control\" id=\"commentaire\" name=\"commentaire\" rows=\"3\" min=\"1\" max=\"300\" required></input>
+            </div>
+            <div class=\"form-group\">
+                <button type=\"submit\" class=\"btn btn-primary\">Commenter</button>
+            </div>
+        </div>
+    </form>";
+if(isset($_GET['messerr'])){ echo $_GET['messerr'];}
+echo "</div>";
+}
 for($i = 0; $i < count($commentairesBiere) ; $i++){
     echo "<div class=\"container vw-70 d-flex flex-column border border-dark border-rounded\">";
     echo "<div class=\"d-flex flex-row\">";

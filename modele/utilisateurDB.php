@@ -127,6 +127,36 @@ function existeCommentaire($idUtilisateur, $idBiere){
     if(count($resultat) == 0){ return false; } else { return true; }
 }
 
+function supprimerCommentaireBiere($idUtilisateur, $idBiere){
+    require('./modele/connectDB.php');
+    $sql = "DELETE FROM note WHERE idBiere = :id1 AND idUtilisateur = :id2";
+    try {
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id1', $idBiere, PDO::PARAM_INT);
+        $commande->bindParam(':id2', $idUtilisateur, PDO::PARAM_INT);
+        $bool = $commande->execute();
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec DELETE FROM note : " . $e->getMessage . "\n"); die();
+    }
+}
+
+function ajouterCommentaireDB($idBiere, $idUtilisateur, $note, $dateDegus, $commentaire){
+    require('./modele/connectDB.php');
+    $sql = "INSERT INTO note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES
+            (:idB, :idU, :n, :dateD, :com)";
+    try {
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':idB', $idBiere, PDO::PARAM_INT);
+        $commande->bindParam(':idU', $idUtilisateur, PDO::PARAM_INT);
+        $commande->bindParam(':n', $note, PDO::PARAM_STR);
+        $commande->bindParam(':dateD', $dateDegus, PDO::PARAM_STR);
+        $commande->bindParam(':com', $commentaire, PDO::PARAM_STR);
+        $bool = $commande->execute();
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec insert into note: " . $e->getMessage . "\n"); die();
+    }
+}
+
 function ajouterUtilisateurSuivi($idUtilisateurSuiveur, $idUtilisateurSuivi){
     require('./modele/connectDB.php');
     $sql = "INSERT INTO suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES (:id1, :id2)";
@@ -183,17 +213,4 @@ function getBiereSuiveur($idSuivi, &$BiereCommenteesSuiveur){
     }
     if(count($resultat) == 0){ $BiereCommenteesSuiveur = array(); return false; }
     else { $BiereCommenteesSuiveur = $resultat; return true; }
-}
-
-function supprimerCommentaireBiere($idUtilisateur, $idBiere){
-    require('./modele/connectDB.php');
-    $sql = "DELETE FROM note WHERE idBiere = :id1 AND idUtilisateur = :id2";
-    try {
-        $commande = $pdo->prepare($sql);
-        $commande->bindParam(':id1', $idBiere, PDO::PARAM_INT);
-        $commande->bindParam(':id2', $idUtilisateur, PDO::PARAM_INT);
-        $bool = $commande->execute();
-    } catch (PDOException $e) { 
-        echo utf__encode("Echec DELETE FROM note : " . $e->getMessage . "\n"); die();
-    }
 }

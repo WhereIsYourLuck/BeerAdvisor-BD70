@@ -146,6 +146,7 @@ function getMalts(&$Malts){
     if(count($resultat) == 0){ $Malts = array(); return false; }
     else { $Malts = $resultat; return true; }
 }
+
 function getLevures(&$levures){
     require('./modele/connectDB.php');
     $sql = "SELECT * FROM typeLevure";
@@ -160,4 +161,8 @@ function getLevures(&$levures){
     }
     if(count($resultat) == 0){ $levures = array(); return false; }
     else { $levures = $resultat; return true; }
+}
+
+function rechercheBiereParCriteres(&$bieres){
+
 }

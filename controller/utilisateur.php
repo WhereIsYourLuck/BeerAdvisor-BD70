@@ -7,6 +7,7 @@ function affichageInscription(){ require_once('./view/inscription.tpl'); }
 function affichageCompte(){
     require_once('./modele/utilisateurDB.php');
     if(isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['tri']) && isset($_GET['tri2'])) {
+
         getUtilisateursSuivis($_GET['id'], $UtilisateursSuivis);
         $bcParUtilisateursSuivis = [];
         for($i = 0 ; $i < count($UtilisateursSuivis) ; $i++){
@@ -79,15 +80,27 @@ function deconnexion(){
 }
 
 function ajouterCommentaire(){
-    
+    require_once('./modele/utilisateurDB.php');
+    require_once('./modele/outilsDB.php');
+    require_once('./controller/biere.php');
+    if(isset($_POST['note']) && isset($_POST['dateDegustation']) && isset($_POST['commentaire']) && isset($_GET['idBiere']) && isset($_SESSION['idUtilisateur'])){
+        if(!existeCommentaire($_SESSION['idUtilisateur'], $_GET['idBiere'])){
+            if(($_POST['note'] >= 0 && $_POST['note'] <= 5)){
+                if((strtotime($_POST['dateDegustation']) <= strtotime(getDateToday()))){
+                        if(strlen($_POST['commentaire']) > 0 && strlen($_POST['commentaire']) < 301){
+                            ajouterCommentaireDB($_GET['idBiere'], $_SESSION['idUtilisateur'], $_POST['note'], $_POST['commentaire'],  $_POST['dateDegustation']); affichageBiere();
+                        } else { header("location: index.php?controller=biere&action=affichageBiere&idBiere=" . $_GET['idBiere'] . "&messerr=Le message doit contenir entre 1 et 300 caractères"); }
+                } else { header("location: index.php?controller=biere&action=affichageBiere&idBiere=" . $_GET['idBiere'] . "&messerr=La date de dégustation doit être antérieure ou égale à la date d'aujourd'hui");}
+            } else { header("location: index.php?controller=biere&action=affichageBiere&idBiere=" . $_GET['idBiere'] . "&messerr=La note dans être comprise entre 0 et 5");}
+        } else { header('location: index.php?'); }
+    } else { header('location: index.php?'); }
 }
 
 function supprimerCommentaire(){
     require_once('./modele/utilisateurDB.php'); 
     if(existeCommentaire($_SESSION['idUtilisateur'], $_GET['idBiere'])){
         supprimerCommentaireBiere($_SESSION['idUtilisateur'], $_GET['idBiere']);
-    }
-    affichageCompte();
+    } affichageCompte();
 }
 
 return array('ajouterCommentaire', 'supprimerCommentaire', 'accueil', 'affichageInscription','affichageConnexion', 'affichageCompte', 'connexion', 'inscription', 'deconnexion', 'suivreUtilisateur', 'desabonnementUtilisateur');
