@@ -7,12 +7,11 @@
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-	
+
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
     	<ul class="navbar-nav navbar-sm-1">
 	  		<li class="nav-item">
 				<a class="nav-link" aria-current="page" href="index.php?controller=biere&action=affichageAccueil">Accueil</a>
-
 				<?php
 					if(isset($_SESSION['nomUtilisateur']) && isset($_SESSION['idUtilisateur'])&& isset($_SESSION['idTypeUtilisateur'])){
 						if($_SESSION['idTypeUtilisateur'] == "1"){

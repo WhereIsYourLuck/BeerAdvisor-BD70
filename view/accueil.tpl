@@ -11,54 +11,55 @@
     <?php include_once('./view/templates/menu.tpl');?> <br>
 
 <div class="container">
-    <form class="form-inline">
+    <form class="form-inline" method="POST" action="index.php?controller=biere&action=rechercheBiere">
         <div class="row">
             <div class="col">
-                <label for="exampleFormControlSelect1 text-center">Bière</label>
-                <input type="text" class="form-control" placeholder="nom" id="nomBiere">
+                <label for="  text-center">Bière</label>
+                <input type="text" class="form-control" placeholder="nom" id="nomBiere" name="nomBiere" maxlength="20">
             </div>
             <div class="col">
-                <label for="exampleFormControlSelect1">note moyenne entre</label>
-                <select class="form-control" id="note moyenne">
-                    <option values="">1-2</option>
-                    <option values="">2-3</option>
-                    <option values="">3-4</option>
-                    <option values="">4-5</option>
+                <label for=" ">Note moyenne entre</label>
+                <select class="form-control" id="noteMoyenne" name="noteMoyenne">
+                    <option value=""></option>
+                    <option value="noteMoyBiere BETWEEN 1 AND 2">1-2</option>
+                    <option value="noteMoyBiere BETWEEN 2 AND 3">2-3</option>
+                    <option value="noteMoyBiere BETWEEN 3 AND 4">3-4</option>
+                    <option value="noteMoyBiere BETWEEN 4 AND 5">4-5</option>
                 </select>
             </div>
             <div class="col">
-                <label for="exampleFormControlSelect1">Taux d'alcool minimum</label>
-                <input type="text" class="form-control" placeholder="nom" id="taux">
+                <label for=" ">Taux d'alcool minimum</label>
+                <input type="text" class="form-control" placeholder="Taux" id="tauxAlcool" name="tauxAlcool">
             </div>
             <div class="col">
-                <label for="exampleFormControlSelect1">Par houblon</label>
-                <select class="form-control" id="houblon">
-                    <option values="-1"> </option>
+                <label for=" ">Par houblon</label>
+                <select class="form-control" id="houblon" name="houblon">
+                    <option value=""> </option>
                     <?php
                         foreach($houblons as $p){
-                            echo "<option values=" . $p['idHoublon'] . ">" . $p['nomHoublon'] . "</option>";
+                            echo "<option value=" . $p['idHoublon'] . ">" . $p['nomHoublon'] . "</option>";
                         }
                     ?>
                 </select>
             </div>
             <div class="col">
-                <label for="exampleFormControlSelect1">Par malt</label>
-                <select class="form-control" id="malt">
-                    <option values="-1"> </option>
+                <label for=" ">Par malt</label>
+                <select class="form-control" id="malt" name="malt">
+                    <option value=""> </option>
                     <?php
                         foreach($malts as $p){
-                            echo "<option values=" . $p['idMalt'] . ">" . $p['nomMalt'] . "</option>";
+                            echo "<option value=" . $p['idMalt'] . ">" . $p['nomMalt'] . "</option>";
                         }
                     ?>
                 </select>
             </div>
             <div class="col">
-                <label for="exampleFormControlSelect1">Par levure</label>
-                <select class="form-control" id="malt">
-                    <option values="-1"> </option>
+                <label for=" ">Par levure</label>
+                <select class="form-control" id="malt" name="levure">
+                    <option value=""> </option>
                     <?php
                         foreach($levures as $p){
-                            echo "<option values=" . $p['idLevure'] . ">" . $p['nomLevure'] . "</option>";
+                            echo "<option value=" . $p['idLevure'] . ">" . $p['nomLevure'] . "</option>";
                         }
                     ?>
                 </select>
@@ -67,6 +68,9 @@
             <button type="submit" class="btn btn-primary mb-2">Rechercher</button>
             </div>
         </div>
+    </form> <br>
+    <form class="form-inline" method="POST" action="index.php?controller=biere&action=affichageAccueil">
+        <button type="submit" class="btn btn-primary mb-2">Supprimer recherche</button>
     </form>
     <br>
 <div>
@@ -78,27 +82,27 @@
             <th scope="col" class="text-center">
             <?php
                     if(isset($_GET['tri2']) && $_GET['tri2'] == "ASC"){
-                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=nomBiere&tri2=DESC\">nom</a>";
+                        echo $nomTri;
                     } else {
-                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=nomBiere&tri2=ASC\">nom</a>";
+                        echo $nomTri;
                     }
             ?>
             </th>
             <th scope="col" class="text-center">
             <?php
                     if(isset($_GET['tri2']) && $_GET['tri2'] == "ASC"){
-                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=noteMoyBiere&tri2=DESC\">note moyenne / 5</a>";
+                        echo $moyTri;
                     } else {
-                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=noteMoyBiere&tri2=ASC\">note moyenne / 5</a>";
+                        echo $moyTri;
                     }
             ?>
             </th>
             <th scope="col" class="text-center">
             <?php
                     if(isset($_GET['tri2']) && $_GET['tri2'] == "ASC"){
-                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=tauxAlcool&tri2=DESC\">Taux d'alcool en %</a>";
+                        echo $alcoolTri;
                     } else {
-                        echo "<a href=\"index.php?controller=biere&action=affichageAccueilTrie&tri=tauxAlcool&tri2=ASC\">Taux d'alcool en %</a>";
+                        echo $alcoolTri;
                     }
             ?>
             </th>

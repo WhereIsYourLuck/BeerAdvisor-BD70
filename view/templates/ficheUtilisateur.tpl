@@ -46,7 +46,11 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
             <?php
             if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id'])){
                echo "<th scope=\"col\" class=\"text-center\"></th>";
+            if(isset($_SESSION['idUtilisateur']) && $_SESSION['idTypeUtilisateur'] == 1 && $_SESSION['idTypeUtilisateur'] == $_SESSION['idUtilisateur']){
+                echo "<th scope=\"col\" class=\"text-center\"></th>";
+            }
             } ?>
+            
             <th scope="col" class="text-center">Bière</th>
             <th scope="col" class="text-center">
                 <?php
@@ -75,6 +79,9 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
                 echo "<tr>";
                 if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id'])){
                     echo "<th scope=\"row\" class=\"text-center\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=supprimerCommentaire&tri=ASC&tri2=noteValeur&id=" . $_SESSION['idUtilisateur'] . "&idBiere=" . $NotesUtilisateurs[$i]['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Supprimer</button></a></th>";
+                }
+                if(isset($_SESSION['idUtilisateur']) && $_SESSION['idTypeUtilisateur'] == 1 && $_SESSION['idTypeUtilisateur'] == $_SESSION['idUtilisateur']){
+                    echo "<th scope=\"row\" class=\"text-center\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=supprimerCommentaireAdmin&tri=ASC&tri2=noteValeur&id=" . $_GET['id'] . "&idBiere=" . $NotesUtilisateurs[$i]['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Supprimer</button></a></th>";
                 }
                 
                 echo "<th scope=\"row\" class=\"text-center\"><a href=\"index.php?controller=biere&action=affichageBiere&idBiere=". $NotesUtilisateurs[$i]['idBiere']. "\">" . $NotesUtilisateurs[$i]['nomBiere'] . "</th>";
