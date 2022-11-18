@@ -51,6 +51,9 @@ function affichageBiere(){
     require_once('./modele/utilisateurDB.php');
     if(isset($_GET['idBiere'])){ 
         infoBiere($_GET['idBiere'], $infosBiere);
+        getLevuresBiere($_GET['idBiere'], $levuresBiere);
+        getHoublonsBiere($_GET['idBiere'], $houblonsBiere);
+        getMaltsBiere($_GET['idBiere'], $maltsBiere);
         commentairesBiere($_GET['idBiere'], $commentairesBiere);
         if(isset($_SESSION['idUtilisateur'])) {
             $recommande = utilisateurRecommandeBiere($_SESSION['idUtilisateur'], $_GET['idBiere']);
@@ -122,6 +125,10 @@ function rechercheBiere(){
     $moyTri = "note moyenne / 5";
     $alcoolTri = "Taux d'alcool en %";
     require_once('./view/accueil.tpl');
+}
+
+function modifierBiere(){
+
 }
 
 return array('rechercheBiere', 'affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere', 'supprimerBiere', 'affichageAccueilTrie');

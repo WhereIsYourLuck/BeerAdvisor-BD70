@@ -177,3 +177,57 @@ function rechercheBiereParCriteres($sql, &$selectRes){
     if(count($resultat) == 0){ $selectRes = array(); return false; }
     else { $selectRes = $resultat; return true; }
 }
+
+function getMaltsBiere($idBiere, &$maltsBiere){
+    require('./modele/connectDB.php');
+    $sql ="SELECT typemalt.nomMalt, possedemalt.idMalt, possedemalt.idBiere 
+    FROM possedemalt
+    INNER JOIN typemalt ON typemalt.idMalt = possedemalt.idMalt
+    WHERE possedemalt.idBiere = :id";
+    try{
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id', $idBiere, PDO::PARAM_INT);
+        $bool = $commande->execute();
+        if($bool){ $resultat = $commande->fetchAll(PDO::FETCH_ASSOC); }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ $maltsBiere = array(); return false; }
+    else { $maltsBiere = $resultat; return true; }
+}
+
+function getHoublonsBiere($idBiere, &$houblonsBiere){
+    require('./modele/connectDB.php');
+    $sql ="SELECT typehoublon.nomHoublon, possedehoublon.idHoublon, possedehoublon.idBiere 
+    FROM possedehoublon
+    INNER JOIN typehoublon ON typehoublon.idHoublon = possedehoublon.idHoublon
+    WHERE possedehoublon.idBiere = :id";
+    try{
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id', $idBiere, PDO::PARAM_INT);
+        $bool = $commande->execute();
+        if($bool){ $resultat = $commande->fetchAll(PDO::FETCH_ASSOC); }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ $houblonsBiere = array(); return false; }
+    else { $houblonsBiere = $resultat; return true; }
+}
+
+function getLevuresBiere($idBiere, &$LevuresBiere){
+    require('./modele/connectDB.php');
+    $sql ="SELECT typelevure.nomLevure, possedelevure.idLevure, possedelevure.idBiere 
+    FROM possedelevure
+    INNER JOIN typelevure ON typelevure.idLevure = possedeLevure.idLevure
+    WHERE possedeLevure.idBiere = :id";
+    try{
+        $commande = $pdo->prepare($sql);
+        $commande->bindParam(':id', $idBiere, PDO::PARAM_INT);
+        $bool = $commande->execute();
+        if($bool){ $resultat = $commande->fetchAll(PDO::FETCH_ASSOC); }
+    } catch (PDOException $e){
+        echo utf8_encode("Echec de select : " . $e->getMessage() . "\n"); die();
+    }
+    if(count($resultat) == 0){ $LevuresBiere = array(); return false; }
+    else { $LevuresBiere = $resultat; return true; }
+}

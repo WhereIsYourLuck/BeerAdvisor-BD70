@@ -44,11 +44,8 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
     <table class="table table-striped table-responsive border table-sm">
         <tr>
             <?php
-            if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id'])){
+            if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id']) || ($_SESSION['idTypeUtilisateur'] == $_SESSION['idUtilisateur'])){
                echo "<th scope=\"col\" class=\"text-center\"></th>";
-            if(isset($_SESSION['idUtilisateur']) && $_SESSION['idTypeUtilisateur'] == 1 && $_SESSION['idTypeUtilisateur'] == $_SESSION['idUtilisateur']){
-                echo "<th scope=\"col\" class=\"text-center\"></th>";
-            }
             } ?>
             
             <th scope="col" class="text-center">Bière</th>
@@ -77,10 +74,10 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
             <?php
             for($i = 0 ; $i < count($NotesUtilisateurs) ; $i++){
                 echo "<tr>";
-                if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id'])){
+                if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id']) && ($_SESSION['idTypeUtilisateur'] != $_SESSION['idUtilisateur'])){
                     echo "<th scope=\"row\" class=\"text-center\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=supprimerCommentaire&tri=ASC&tri2=noteValeur&id=" . $_SESSION['idUtilisateur'] . "&idBiere=" . $NotesUtilisateurs[$i]['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Supprimer</button></a></th>";
                 }
-                if(isset($_SESSION['idUtilisateur']) && $_SESSION['idTypeUtilisateur'] == 1 && $_SESSION['idTypeUtilisateur'] == $_SESSION['idUtilisateur']){
+                if(isset($_SESSION['idUtilisateur']) && $_SESSION['idTypeUtilisateur'] == 1 || ($_SESSION['idTypeUtilisateur'] == $_SESSION['idUtilisateur'])){
                     echo "<th scope=\"row\" class=\"text-center\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=supprimerCommentaireAdmin&tri=ASC&tri2=noteValeur&id=" . $_GET['id'] . "&idBiere=" . $NotesUtilisateurs[$i]['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Supprimer</button></a></th>";
                 }
                 

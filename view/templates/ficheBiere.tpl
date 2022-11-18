@@ -16,10 +16,14 @@
             echo "<a href=\"index.php?controller=biere&action=retirerRecommanderBiere&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Ne plus recommander</button></a>";
         }
     }
+    echo "<br><a href=\"index.php?controller=biere&action=modifierbiere&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Modifier</button></a>";
     ?>
     <h2> <?php echo $infosBiere[0]['nomBiere']; ?> </h2>
     <p>Caractéristiques :<br>
     Taux Alcool : <?php echo $infosBiere[0]['tauxAlcool']; ?>%<br>
+    Houblons utilisés : <?php foreach($houblonsBiere as $key => $value){ echo $houblonsBiere[$key]['nomHoublon'] . " "; } ?> <br>
+    Malts utilisés : <?php foreach($maltsBiere as $key => $value){ echo $maltsBiere[$key]['nomMalt'] . " "; } ?> <br>
+    Levure utilisées : <?php foreach($levuresBiere as $key => $value){ echo $levuresBiere[$key]['nomLevure'] . " "; } ?> <br>
     Note moyenne Bière : <?php
     if($infosBiere[0]['noteMoyBiere'] == NULL) { echo "<b><i>Pas de notes</i></b>"; } else { echo $infosBiere[0]['noteMoyBiere']; } ?>
 
