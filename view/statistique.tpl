@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php
-    $ecritureBDD = ['admin' => $nbrAdmin[0]["COUNT(idUtilisateur)"], 'utilisateur' => $nbrUtilUnique[0]["COUNT(idUtilisateur)"]];
+    //Ecriture des donnees dans le fichier donnees.json
+    $ecritureBDD = ['admin' => $nbrAdmin[0]["COUNT(idUtilisateur)"], 'utilisateur' => $nbrUtilUnique[0]["COUNT(idUtilisateur)"],
+    'recommandation' => $BiereRecommand];
     file_put_contents('donnees.json', json_encode($ecritureBDD));
     ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -14,17 +16,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
 
+      //Lecture des donnees du fichier donnees.json
       $(document).ready(function(){
         $(function() {
 	      $.getJSON('donnees.json', function(contenu) {
           nbrAdminJ = contenu.admin;
           nbrUtilisateurJ = contenu.utilisateur;
+          biereRecommander = contenu.recommandation;
 	      });
 	    });
       });
 
+      
+
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawRecommandation);
+
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
@@ -39,6 +47,25 @@
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
+      }
+
+      function drawRecommandation() {
+        var data = google.visualization.arrayToDataTable([
+          ['Bières', 'nbrRecommander'],
+          ['lol', biereRecommander[0]['idBiere']],
+        ]);
+
+        console.log(data['bf']);
+
+        //data.('string','Country');
+
+        var options = {
+          title: 'Recommandation des bières selon les utilisateurs'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('recommandation'));
+        chart.draw(data, options);
+
       }
     </script>
 </head>
@@ -62,7 +89,13 @@
         
          
     </div>
+    <table>
+      <tr>
+      <th id="piechart" style="width: 900px; height: 500px;"></th>
+      <th id="recommandation" style="width: 900px; height: 500px;"></th>
+      </tr>
+    </table>
+    
 </div>
-<div id="piechart" style="width: 900px; height: 500px;"></div>
 </body>
 </html>

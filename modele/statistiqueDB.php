@@ -63,3 +63,19 @@ function nbrUtilisateurUnique(&$nbrUtilUnique){
         $nbrUtilUnique = $resultat; return true;
     }
 }
+
+function recommandationStat(&$BiereRecommand){
+    require('./modele/connectDB.php');
+    $sql = "SELECT idBiere FROM recommande";
+    try {
+        $commande = $pdo->prepare($sql);
+        $bool = $commande->execute();
+        if($bool){ $resultat = $commande->fetchAll(PDO::FETCH_ASSOC); }
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec insert into : " . $e->getMessage . "\n"); die();
+    }
+    if(count($resultat) == 0){ $BiereRecommand = array(); return false; } 
+    else {
+        $BiereRecommand = $resultat; return true;
+    }
+}

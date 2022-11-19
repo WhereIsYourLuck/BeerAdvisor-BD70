@@ -6,6 +6,7 @@
         BiereSaisies($nbrBiere);
         nbrAdmin($nbrAdmin);
         nbrUtilisateurUnique($nbrUtilUnique);
+        recommandationStat($BiereRecommand);
         require_once('./view/statistique.tpl');
     }
 
