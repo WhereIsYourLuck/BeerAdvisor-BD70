@@ -27,7 +27,7 @@ if(isset($_SESSION['idUtilisateur']) && $_GET['id'] != $_SESSION['idUtilisateur'
 <p> Bières commentées par les utilisateurs suivis : 
 <?php
 for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
-    echo "<a href=\"index.php?controller=biere&action=&idBiere=" . $unserializedBiereCommenteesSuiveur[$i]['idBiere'] . "\">" . $unserializedBiereCommenteesSuiveur[$i]['nomBiere'] . "</a>";
+    echo "<a href=\"index.php?controller=biere&action=affichageBiere&idBiere=" . $unserializedBiereCommenteesSuiveur[$i]['idBiere'] . "\">" . $unserializedBiereCommenteesSuiveur[$i]['nomBiere'] . "</a>";
     echo " ";
 }
 ?>
@@ -35,7 +35,7 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
 </p>
 <p>Les coups de coeur (recommandations): 
 <?php for($i = 0 ; $i < count($recommandations) ; $i++){
-    echo "<a href=\"index.php?controller=&action=&idBiere=" . $recommandations[$i]['idBiere'] . "\">" . $recommandations[$i]['nomBiere'] . "</a>";
+    echo "<a href=\"index.php?controller=biere&action=affichageBiere&idBiere=" . $recommandations[$i]['idBiere'] . "\">" . $recommandations[$i]['nomBiere'] . "</a>";
     echo " "; } ?>
 </p>
 
@@ -43,11 +43,19 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
 <div class="row">
     <table class="table table-striped table-responsive border table-sm">
         <tr>
+            <?php
+            if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id'])){
+               echo "<th scope=\"col\" class=\"text-center\"></th>";
+            if(isset($_SESSION['idUtilisateur']) && $_SESSION['idTypeUtilisateur'] == 1 && $_SESSION['idTypeUtilisateur'] == $_SESSION['idUtilisateur']){
+                echo "<th scope=\"col\" class=\"text-center\"></th>";
+            }
+            } ?>
+            
             <th scope="col" class="text-center">Bière</th>
             <th scope="col" class="text-center">
                 <?php
                     if($_GET['tri'] == "ASC"){
-                        echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=DESC&tri2=noteValeur\">Notes</a>";;
+                        echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=DESC&tri2=noteValeur\">Notes</a>";
                     } else {
                         echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=ASC&tri2=noteValeur\">Notes</a>";
                     }
@@ -61,7 +69,6 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
                     } else {
                         echo "<a href=\"index.php?controller=utilisateur&action=affichageCompte&id=" . $_GET['id'] . "&tri=ASC&tri2=noteMoyBiere\">Moyenne Bière</a>";
                     }
-                
                 ?>
             </th>
             <th scope="col" class="text-center">date de dégustation</th>
@@ -70,7 +77,14 @@ for($i = 0 ; $i < count($unserializedBiereCommenteesSuiveur) ; $i++){
             <?php
             for($i = 0 ; $i < count($NotesUtilisateurs) ; $i++){
                 echo "<tr>";
-                echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['nomBiere'] . "</th>";
+                if(isset($_SESSION['idUtilisateur']) && ($_SESSION['idUtilisateur'] == $_GET['id'])){
+                    echo "<th scope=\"row\" class=\"text-center\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=supprimerCommentaire&tri=ASC&tri2=noteValeur&id=" . $_SESSION['idUtilisateur'] . "&idBiere=" . $NotesUtilisateurs[$i]['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Supprimer</button></a></th>";
+                }
+                if(isset($_SESSION['idUtilisateur']) && $_SESSION['idTypeUtilisateur'] == 1 && $_SESSION['idTypeUtilisateur'] == $_SESSION['idUtilisateur']){
+                    echo "<th scope=\"row\" class=\"text-center\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=supprimerCommentaireAdmin&tri=ASC&tri2=noteValeur&id=" . $_GET['id'] . "&idBiere=" . $NotesUtilisateurs[$i]['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Supprimer</button></a></th>";
+                }
+                
+                echo "<th scope=\"row\" class=\"text-center\"><a href=\"index.php?controller=biere&action=affichageBiere&idBiere=". $NotesUtilisateurs[$i]['idBiere']. "\">" . $NotesUtilisateurs[$i]['nomBiere'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['noteValeur'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['noteMoyBiere'] . "</th>";
                 echo "<th scope=\"row\" class=\"text-center\">" . $NotesUtilisateurs[$i]['dateDegustation'] . "</th>";

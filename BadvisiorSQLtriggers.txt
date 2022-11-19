@@ -41,21 +41,21 @@ CREATE TABLE Biere(
    idBiere INT,
    nomBiere VARCHAR(50) NOT NULL UNIQUE,
    tauxAlcool DECIMAL(6,2),
-   noteMoyBiere DECIMAL(6,2)
+   noteMoyBiere DECIMAL(6,1)
 );
 
 CREATE TABLE Utilisateur(
    idUtilisateur INT,
    nomUtilisateur VARCHAR(50) NOT NULL UNIQUE,
-   passwordUtilisateur VARCHAR(100),
+   passwordUtilisateur VARCHAR(90),
    idTypeUtilisateur INT NOT NULL
 );
 
 CREATE TABLE Note(
    idBiere INT,
    idUtilisateur INT,
-   noteValeur DECIMAL(6,2),
-   commentaireBiere TEXT(300),
+   noteValeur DECIMAL(6,1),
+   commentaireBiere VARCHAR(310),
    dateDegustation DATE
 );
 
@@ -146,9 +146,9 @@ AFTER INSERT ON Note
 FOR EACH ROW 
 BEGIN 
 
-DECLARE moy_b INT(11); 
+DECLARE moy_b DECIMAL(6,1); 
 
-SELECT AVG(noteValeur) INTO moy_b FROM Note WHERE idBiere = NEW.idBiere; 
+SELECT AVG(CAST(noteValeur AS DECIMAL(6,1))) INTO moy_b FROM Note WHERE idBiere = NEW.idBiere; 
 UPDATE Biere SET noteMoyBiere = moy_b WHERE idBiere = NEW.idBiere; 
 END;//
 delimiter; 
@@ -159,9 +159,9 @@ AFTER UPDATE ON Note
 FOR EACH ROW 
 BEGIN 
 
-DECLARE moy_b INT(11); 
+DECLARE moy_b DECIMAL(6,1); 
 
-SELECT AVG(noteValeur) INTO moy_b FROM Note WHERE idBiere = NEW.idBiere; 
+SELECT AVG(CAST(noteValeur AS DECIMAL(6,1))) INTO moy_b FROM Note WHERE idBiere = NEW.idBiere; 
 UPDATE Biere SET noteMoyBiere = moy_b WHERE idBiere = NEW.idBiere; 
 END;//
 delimiter;
@@ -172,9 +172,9 @@ AFTER DELETE ON Note
 FOR EACH ROW 
 BEGIN 
 
-DECLARE moy_b INT(11); 
+DECLARE moy_b DECIMAL(6,1); 
 
-SELECT AVG(noteValeur) INTO moy_b FROM Note WHERE idBiere = OLD.idBiere; 
+SELECT AVG(CAST(noteValeur AS DECIMAL(6,1))) INTO moy_b FROM Note WHERE idBiere = OLD.idBiere; 
 UPDATE Biere SET noteMoyBiere = moy_b WHERE idBiere = OLD.idBiere; 
 END;//
 delimiter; 
@@ -244,12 +244,12 @@ INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(3,6);
 INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(3,7);
 INSERT INTO Suit(idUtilisateurSuiveur, idUtilisateurSuivi) VALUES(3,8);
 
-INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 1, 4.0, "Pas mal", "2022-10-19");
-INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 2, 1.0, "Nulle", "2022-10-03");
-INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 3, 5.0, "Incrooooooooooooooooooooooooyable", "2022-10-06");
-INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 6, 5.0, "mmmmmmmmmmmmmmmmmmmmmhhhhh", "2022-10-06");
-INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(2, 9, 5.0, "Incrooooooooooooooooooooooooyable", "2022-10-06");
-INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(2, 3, 0.0, "IPas bon", "2022-10-09");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 1, 4.2, "Pas mal", "2022-10-19");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 2, 1.5, "Nulle", "2022-10-03");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 3, 4.9, "Incrooooooooooooooooooooooooyable", "2022-10-06");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(8, 6, 4.3, "mmmmmmmmmmmmmmmmmmmmmhhhhh", "2022-10-06");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(2, 9, 2.7, "Incrooooooooooooooooooooooooyable", "2022-10-06");
+INSERT INTO Note(idBiere, idUtilisateur, noteValeur, commentaireBiere, dateDegustation) VALUES(2, 3, 2.0, "IPas bon", "2022-10-09");
 
 INSERT INTO TypeMalt(nomMalt) VALUES("blé");
 INSERT INTO TypeMalt(nomMalt) VALUES("blé torréfié");
@@ -278,10 +278,5 @@ INSERT INTO TypeHoublon(nomHoublon) VALUES("summit");
 INSERT INTO TypeLevure(nomLevure) VALUES("ales");
 INSERT INTO TypeLevure(nomLevure) VALUES("lager");
 INSERT INTO TypeLevure(nomLevure) VALUES("sauvages");
-
-INSERT INTO possedehoublon (idBiere, idHoublon) VALUES (1, 6), (2, 5), (3, 4), (4, 1), (4, 5), (4, 6), (5, 2), (5, 4), (6, 3), (7, 5), (7, 6), (7, 7), (8, 2), (8, 3), (9, 1), (9, 2), (9, 7), (10, 3), (10, 4), (11, 6);
-INSERT INTO possedelevure (idBiere, idLevure) VALUES (1, 2), (2, 3), (3, 1), (4, 1), (5, 3), (6, 3), (7, 3), (8, 1), (9, 2), (10, 3), (11, 2);
-INSERT INTO possedemalt (idBiere, idMalt) VALUES (1, 3), (1, 4), (2, 3), (2, 8), (2, 9), (3, 3), (4, 3), (5, 3), (5, 15), (6, 3), (7, 3), (8, 3), (9, 3), (10, 3), (11, 1), (11, 3);
-
 -- ----------------------------------------------- DATA ---------------------------------------------------------------
 
