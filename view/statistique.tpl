@@ -1,3 +1,6 @@
+<?php
+if(!isset($_SESSION['idTypeUtilisateur']) || $_SESSION['idTypeUtilisateur'] != 1){ header("location: index.php?"); }
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -29,7 +29,7 @@
             </div>
             <div class="col">
                 <label for=" ">Taux d'alcool minimum</label>
-                <input type="text" class="form-control" placeholder="Taux" id="tauxAlcool" name="tauxAlcool">
+                <input type="number" step="0.1" min="1" class="form-control" placeholder="Taux" id="tauxAlcool" name="tauxAlcool">
             </div>
             <div class="col">
                 <label for=" ">Par houblon</label>

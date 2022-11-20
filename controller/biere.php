@@ -96,7 +96,7 @@ function supprimerBiere(){
 
 function rechercheBiere(){
     require_once('./modele/biereDB.php');
-    $arguments = array("biere.nomBiere" => $_POST['nomBiere'], "noteMoyenne" => $_POST['noteMoyenne'], "tauxAlcool" => intval($_POST['tauxAlcool']), "possedehoublon.idHoublon" => intval($_POST['houblon']), "possedemalt.idMalt" => intval($_POST['malt']),  "possedelevure.idLevure" => intval($_POST['levure']));
+    $arguments = array("biere.nomBiere" => $_POST['nomBiere'], "noteMoyenne" => $_POST['noteMoyenne'], "tauxAlcool" => floatval($_POST['tauxAlcool']), "possedehoublon.idHoublon" => intval($_POST['houblon']), "possedemalt.idMalt" => intval($_POST['malt']),  "possedelevure.idLevure" => intval($_POST['levure']));
     $sql = "SELECT DISTINCT biere.idBiere, biere.nomBiere, biere.tauxAlcool, biere.noteMoyBiere FROM biere 
     INNER JOIN possedehoublon ON possedehoublon.idBiere = biere.idBiere
     INNER JOIN possedemalt ON possedemalt.idBiere = biere.idBiere
@@ -125,10 +125,6 @@ function rechercheBiere(){
     $moyTri = "note moyenne / 5";
     $alcoolTri = "Taux d'alcool en %";
     require_once('./view/accueil.tpl');
-}
-
-function modifierBiere(){
-
 }
 
 return array('rechercheBiere', 'affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere', 'supprimerBiere', 'affichageAccueilTrie');

@@ -16,9 +16,11 @@
 					if(isset($_SESSION['nomUtilisateur']) && isset($_SESSION['idUtilisateur'])&& isset($_SESSION['idTypeUtilisateur'])){
 						if($_SESSION['idTypeUtilisateur'] == "1"){
 							echo "<li class=\"nav-item\"><a class=\"nav-link\" href=\"index.php?controller=statistique&action=statistique\">Statistiques du site</a></li>";
+							echo "<li class=\"nav-item\"><a class=\"nav-link\" href=\"index.php?controller=admin&action=affichageCaracteristiques\">Gérer caractérisques</a></li>";
 						}
 						echo "<li class=\"nav-item\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=affichageCompte&tri=ASC&tri2=noteValeur&id=" . $_SESSION['idUtilisateur'] . " \">" . $_SESSION['nomUtilisateur'] . "</a></li>";
 						echo "<li class=\"nav-item\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=deconnexion\">Deconnexion</a></li>";
+						echo "<li class=\"nav-item\"><a class=\"nav-link\" href=\"index.php?controller=biereModification&action=affichageAjoutBiere\"></a></li>";
 					} else {
 						echo "<li class=\"nav-item\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=affichageConnexion\">Connexion</a></li>";
 						echo "<li class=\"nav-item\"><a class=\"nav-link\" href=\"index.php?controller=utilisateur&action=affichageInscription\">Inscription</a></li>";
