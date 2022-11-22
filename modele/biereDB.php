@@ -163,6 +163,20 @@ function getLevures(&$levures){
     else { $levures = $resultat; return true; }
 }
 
+function ajouterBiereDB($nomBiere, $tauxAlcool){
+    require('./modele/connectDB.php');
+    $sql = "INSERT INTO Biere(nomBiere, tauxAlcool) VALUES ('" . $nomBiere . "', '" . $tauxAlcool . "')";
+    //$sql = "INSERT INTO Biere(nomBiere, tauxAlcool) VALUES (:nomBiere, :alcool)"; Ne passe jamais
+    try {
+        $commande = $pdo->prepare($sql);
+        //$commande->bindParam(':nomBiere', $nomBiere, PDO::PARAM_STR);
+        //$commande->bindParam(':alcool', $tauxAlcool, PDO::PARAM_STR);
+        $bool = $commande->execute();
+    } catch (PDOException $e) { 
+        echo utf__encode("Echec insert into biere " . $e->getMessage . "\n"); die();
+    }
+}
+
 function rechercheBiereParCriteres($sql, &$selectRes){
     require('./modele/connectDB.php');
     try{

@@ -40,11 +40,11 @@ function ajouterHoublon(){
 
 function ajouterMalt(){
     require_once('./modele/adminDB.php');
-    if(isset($_POST['Malt']) || $_POST['Malt'] == "" || strlen($_POST['Malt']) == 0){
+    if($_POST['malt'] == "" || strlen($_POST['malt']) == 0){
         header("location: index.php?controller=admin&action=affichageCaracteristiques&messerr=Impossible");
     } else {
-        if(!existeType("Malt", $_POST['Malt'])){
-            ajouterMaltDB($_POST['Malt']);
+        if(!existeType("Malt", $_POST['malt'])){
+            ajouterMaltDB($_POST['malt']);
             affichageCaracteristiques();
         } else {
             header("location: index.php?controller=admin&action=affichageCaracteristiques&messerr=Ce Type existe Déjà");
@@ -54,11 +54,11 @@ function ajouterMalt(){
 
 function ajouterLevure(){
     require_once('./modele/adminDB.php');
-    if(isset($_POST['Levure']) || $_POST['Levure'] == "" || strlen($_POST['Levure']) == 0){
+    if($_POST['levure'] == "" || strlen($_POST['levure']) == 0){
         header("location: index.php?controller=admin&action=affichageCaracteristiques&messerr=Impossible");
     } else {
-        if(!existeType("Levure", $_POST['Levure'])){
-            ajouterLevureDB($_POST['Levure']);
+        if(!existeType("Levure", $_POST['levure'])){
+            ajouterLevureDB($_POST['levure']);
             affichageCaracteristiques();
         } else {
             header("location: index.php?controller=admin&action=affichageCaracteristiques&messerr=Ce Type existe Déjà");

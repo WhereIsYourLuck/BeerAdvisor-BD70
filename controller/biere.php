@@ -97,19 +97,17 @@ function supprimerBiere(){
 function rechercheBiere(){
     require_once('./modele/biereDB.php');
     $arguments = array("biere.nomBiere" => $_POST['nomBiere'], "noteMoyenne" => $_POST['noteMoyenne'], "tauxAlcool" => floatval($_POST['tauxAlcool']), "possedehoublon.idHoublon" => intval($_POST['houblon']), "possedemalt.idMalt" => intval($_POST['malt']),  "possedelevure.idLevure" => intval($_POST['levure']));
-    $sql = "SELECT DISTINCT biere.idBiere, biere.nomBiere, biere.tauxAlcool, biere.noteMoyBiere FROM biere 
-    INNER JOIN possedehoublon ON possedehoublon.idBiere = biere.idBiere
-    INNER JOIN possedemalt ON possedemalt.idBiere = biere.idBiere
-    INNER JOIN possedelevure ON possedelevure.idBiere = biere.idBiere
-    INNER JOIN typemalt ON typemalt.idMalt = possedemalt.idMalt
-    INNER JOIN typelevure ON typelevure.idLevure = possedelevure.idLevure
-    INNER JOIN typehoublon ON typehoublon.idHoublon = possedehoublon.idHoublon WHERE ";
-    // , possedemalt.idMalt, typemalt.nomMalt, possedelevure.idLevure, typelevure.nomLevure, possedehoublon.idHoublon, typehoublon.nomHoublon
+    $sql = "SELECT DISTINCT biere.idBiere, biere.nomBiere, biere.tauxAlcool, biere.noteMoyBiere FROM biere ";
+    if($arguments['possedehoublon.idHoublon'] != 0){ $sql = $sql . "INNER JOIN possedehoublon ON possedehoublon.idBiere = biere.idBiere INNER JOIN typehoublon ON typehoublon.idHoublon = possedehoublon.idHoublon ";}
+    if($arguments['possedemalt.idMalt'] != 0){ $sql = $sql . "INNER JOIN possedemalt ON possedemalt.idBiere = biere.idBiere INNER JOIN typemalt ON typemalt.idMalt = possedemalt.idMalt ";}
+    if($arguments['possedelevure.idLevure'] != 0){ $sql = $sql . "INNER JOIN possedelevure ON possedelevure.idBiere = biere.idBiere INNER JOIN typelevure ON typelevure.idLevure = possedelevure.idLevure ";}
+    $sql = $sql . " WHERE ";
     foreach($arguments as $key => $value){ if($value == 0 || $value == ""){ unset($arguments[$key]); } }
     $argumentsTaille = Count($arguments); $index = 0;
     foreach($arguments as $key => $value){
         $index++;
         if($value == 0 || $value == ""){ continue; }
+        if($key == "tauxAlcool") { $sql = $sql . $key . " >= " . $value; continue; }
         if($key == "noteMoyenne" && ($argumentsTaille == $index)){ $sql = $sql .  $value; continue; } 
         elseif($key == "noteMoyenne" && ($argumentsTaille != $index)){ $sql = $sql .  $value . " AND "; continue; }
         if(gettype($value) == 'string'){ $valueModif = "'". $value ."'"; } 
@@ -117,6 +115,7 @@ function rechercheBiere(){
         if($argumentsTaille  == $index){ $sql = $sql . $key . " = " . $valueModif; }
             else { $sql = $sql . $key . " = " . $valueModif . " AND "; }
     }
+    var_dump($sql);
     rechercheBiereParCriteres($sql, $listeBieresResultat);
     getMalts($malts);
     getLevures($levures);
@@ -127,4 +126,15 @@ function rechercheBiere(){
     require_once('./view/accueil.tpl');
 }
 
-return array('rechercheBiere', 'affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere', 'supprimerBiere', 'affichageAccueilTrie');
+function ajouterBiere(){
+    require_once('./modele/biereDB.php');
+    if($_POST['nomBiere'] != ""){
+        ajouterBiereDB(trim(strtolower($_POST['nomBiere'])), $_POST['tauxAlcool']);
+        header("location: index.php?controller=biere&action=affichageAccueil&messajout=Biere ajoutée");
+    } else {
+        header("location: index.php?controller=biere&action=affichageAccueil&messajout=Il faut remplir correctement les champs");
+    }
+    
+}
+
+return array('ajouterBiere', 'rechercheBiere', 'affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere', 'supprimerBiere', 'affichageAccueilTrie');

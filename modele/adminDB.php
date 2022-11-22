@@ -69,7 +69,7 @@ function ajouterMaltDB($nomMalt){
     $sql = "INSERT INTO typeMalt(nomMalt) VALUES(:nomMalt)";
     try {
         $commande = $pdo->prepare($sql);
-        $commande->bindParam(':nomHoublon', $nomMalt, PDO::PARAM_STR);
+        $commande->bindParam(':nomMalt', $nomMalt, PDO::PARAM_STR);
         $bool = $commande->execute();
     } catch (PDOException $e) { 
         echo utf__encode("Echec insert into typeMalt " . $e->getMessage . "\n"); die();

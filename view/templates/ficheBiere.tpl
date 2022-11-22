@@ -14,9 +14,10 @@
             echo "<a href=\"index.php?controller=biere&action=recommanderBiere&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Recommander</button></a>";
         } else {
             echo "<a href=\"index.php?controller=biere&action=retirerRecommanderBiere&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Ne plus recommander</button></a>";
+            
         }
+        echo "<br><a href=\"index.php?controller=modificationsBiere&action=affichageModification&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Modifier</button></a>";
     }
-    echo "<br><a href=\"index.php?controller=biere&action=modifierbiere&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Modifier</button></a>";
     ?>
     <h2> <?php echo $infosBiere[0]['nomBiere']; ?> </h2>
     <p>Caractéristiques :<br>

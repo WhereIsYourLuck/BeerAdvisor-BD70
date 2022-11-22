@@ -74,6 +74,26 @@
     </form>
     <br>
 <div>
+<div class="container">
+    <form class="form-inline" method="POST" action="index.php?controller=biere&action=ajouterBiere">
+        <div class="row">
+            <div class="col">
+                <label for="  text-center">Nom de la nouvelle bière</label>
+                <input type="text" pattern="[a-zA-Z]*" class="form-control" placeholder="nom" id="nomBiere" name="nomBiere" maxlength="20">
+            </div>
+            <div class="col">
+                <label for=" ">Taux d'alcool</label>
+                <input type="number" step="0.1" min="1" class="form-control" placeholder="Taux" id="tauxAlcool" name="tauxAlcool">
+            </div>
+            <div class="col">
+                <p></p>
+                <button type="submit" class="btn btn-primary mb-2">Ajouter</button>
+            </div>
+        </div>
+    </form>
+    <?php if(isset($_GET['messajout'])) {echo $_GET['messajout']; } ?>
+<div>
+<br>
 <div class="container vw-70">
     <div class="row">
         <table class="table table-striped table-responsive border table-sm">
