@@ -115,7 +115,6 @@ function rechercheBiere(){
         if($argumentsTaille  == $index){ $sql = $sql . $key . " = " . $valueModif; }
             else { $sql = $sql . $key . " = " . $valueModif . " AND "; }
     }
-    var_dump($sql);
     rechercheBiereParCriteres($sql, $listeBieresResultat);
     getMalts($malts);
     getLevures($levures);
@@ -128,13 +127,13 @@ function rechercheBiere(){
 
 function ajouterBiere(){
     require_once('./modele/biereDB.php');
-    if($_POST['nomBiere'] != ""){
-        ajouterBiereDB(trim(strtolower($_POST['nomBiere'])), $_POST['tauxAlcool']);
-        header("location: index.php?controller=biere&action=affichageAccueil&messajout=Biere ajoutée");
-    } else {
-        header("location: index.php?controller=biere&action=affichageAccueil&messajout=Il faut remplir correctement les champs");
-    }
-    
+    require_once('./modele/modificationBiereDB.php');
+    if(existeNom(trim(strtolower($_POST['nomBiere']) == false))){
+        if($_POST['nomBiere'] != "" || existeNom(trim(strtolower($_POST['nomBiere'])))){
+            ajouterBiereDB(trim(strtolower($_POST['nomBiere'])), $_POST['tauxAlcool']);
+            header("location: index.php?controller=biere&action=affichageAccueil&messajout=Biere ajoutée, vous pouvez remplir ces informations dans sa fiche.");
+        } else { header("location: index.php?controller=biere&action=affichageAccueil&messajout=Il faut remplir correctement les champs"); }
+    } else { header("location: index.php?controller=biere&action=affichageAccueil&messajout=Biere déjà existante"); }
 }
 
 return array('ajouterBiere', 'rechercheBiere', 'affichageAccueil', 'affichageBiere', 'recommanderBiere', 'retirerRecommanderBiere', 'supprimerBiere', 'affichageAccueilTrie');

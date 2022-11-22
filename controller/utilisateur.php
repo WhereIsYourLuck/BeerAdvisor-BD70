@@ -7,7 +7,6 @@ function affichageInscription(){ require_once('./view/inscription.tpl'); }
 function affichageCompte(){
     require_once('./modele/utilisateurDB.php');
     if(isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['tri']) && isset($_GET['tri2'])) {
-        
         getUtilisateursSuivis($_GET['id'], $UtilisateursSuivis);
         $bcParUtilisateursSuivis = [];
         for($i = 0 ; $i < count($UtilisateursSuivis) ; $i++){
@@ -107,9 +106,8 @@ function supprimerCommentaire(){
 
 function supprimerCommentaireAdmin(){
     require_once('./modele/utilisateurDB.php'); 
-    if(existeCommentaire($_GET['id'], $_GET['idBiere'])){
-        supprimerCommentaireBiere($_GET['id'], $_GET['idBiere']);
-    } affichageCompte();
+    if(existeCommentaire($_GET['id'], $_GET['idBiere'])){ supprimerCommentaireBiere($_GET['id'], $_GET['idBiere']); }
+    affichageCompte();
 }
 
 return array('supprimerCommentaireAdmin', 'ajouterCommentaire', 'supprimerCommentaire', 'accueil', 'affichageInscription','affichageConnexion', 'affichageCompte', 'connexion', 'inscription', 'deconnexion', 'suivreUtilisateur', 'desabonnementUtilisateur');

@@ -165,7 +165,13 @@ function getLevures(&$levures){
 
 function ajouterBiereDB($nomBiere, $tauxAlcool){
     require('./modele/connectDB.php');
-    $sql = "INSERT INTO Biere(nomBiere, tauxAlcool) VALUES ('" . $nomBiere . "', '" . $tauxAlcool . "')";
+    $sql = "";
+    if($tauxAlcool == ""){
+        $sql = "INSERT INTO Biere(nomBiere, tauxAlcool) VALUES ('" . $nomBiere . "', NULL)";
+    } else {
+        $sql = "INSERT INTO Biere(nomBiere, tauxAlcool) VALUES ('" . $nomBiere . "', '" . $tauxAlcool . "')";
+    }
+    //$sql = "INSERT INTO Biere(nomBiere, tauxAlcool) VALUES ('" . $nomBiere . "', '" . $tauxAlcool . "')";
     //$sql = "INSERT INTO Biere(nomBiere, tauxAlcool) VALUES (:nomBiere, :alcool)"; Ne passe jamais
     try {
         $commande = $pdo->prepare($sql);
