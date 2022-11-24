@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </head>
-<body> <?php include_once('./view/templates/menu.tpl'); ?> <br>
+<body> <?php include_once('./view/templates/menu.tpl'); ?>
     <?php
     if(isset($_SESSION['idUtilisateur'])){
         echo "<br><a href=\"index.php?controller=biere&action=affichageBiere&idBiere=" . $_GET['idBiere'] ."\"><button class=\"btn btn-primary btn-sm\">Revenir sur la fiche</button></a>";
@@ -21,20 +21,21 @@
     Levure utilisées : <?php foreach($levuresBiere as $key => $value){ echo $levuresBiere[$key]['nomLevure'] . " "; } ?> <br>
     </p>
     <div class="container">
-        <form class="form-inline" method="POST" action="">
+        <form class="form-inline" method="POST" action="<?php echo "index.php?controller=modificationsBiere&action=changerNom&idBiere=" . $_GET['idBiere']?>">
             <div class="row">
                 <div class="col">
                     <label>Changer le nom</label>
                 </div>
                 <div class="col">
-                    <input type="text" pattern="[a-zA-Z]*" class="form-control" placeholder="nom" id="nomBiere" name="nomBiere" maxlength="20">
+                    <input type="text" pattern="[a-zA-Z0-9]+[a-zA-Z0-9 ]+" class="form-control" placeholder="nom" id="nomBiere" name="nomBiere" maxlength="50">
                 </div>
                 <div class="col">
                     <button type="submit" class="btn btn-primary mb-2">Changer</button>
                 </div>
             </div>
         </form>
-        <form class="form-inline" method="POST" action="">
+        <?php if(isset($_GET['prbnom'])) { echo "<p>" . $_GET['prbnom'] . "</p>";}  ?>
+        <form class="form-inline" method="POST" action="<?php echo "index.php?controller=modificationsBiere&action=changerTAlcool&idBiere=" . $_GET['idBiere']?>">
             <div class="row">
                 <div class="col">
                     <label>Changer le taux d'alcool</label>
@@ -47,12 +48,14 @@
                 </div>
             </div>
         </form>
+        <?php if(isset($_GET['prbAlcool'])) { echo "<p>" . $_GET['prbAlcool'] . "</p>";}  ?>
+        
 
-    <form class="form-inline" method="POST" action="">
+    <form class="form-inline" method="POST" action="<?php echo "index.php?controller=modificationsBiere&action=supprimerType&typeChangement=houblon&idBiere=" . $_GET['idBiere']?>">
         <div class="row">
             <p class="col">Supprimer houblon : </p>
             <div class="col">
-                <select class="form-control" id="houblon" name="houblon">
+                <select class="form-control" id="typeCarac" name="typeCarac">
                     <option value=""> </option>
                     <?php
                         foreach($houblonsBiere as $p){
@@ -66,11 +69,11 @@
             </div>
         </div>
 </form>
-<form class="form-inline" method="POST" action="">
+<form class="form-inline" method="POST" action="<?php echo "index.php?controller=modificationsBiere&action=supprimerType&typeChangement=malt&idBiere=" . $_GET['idBiere']?>">
         <div class="row">
             <p class="col">Supprimer malt : </p>
             <div class="col">
-                <select class="form-control" id="malt" name="malt">
+                <select class="form-control" id="typeCarac" name="typeCarac">
                     <option value=""> </option>
                     <?php
                         foreach($maltsBiere as $p){
@@ -84,11 +87,11 @@
             </div>
         </div>
 </form>
-<form class="form-inline" method="POST" action="">
+<form class="form-inline" method="POST" action="<?php echo "index.php?controller=modificationsBiere&action=supprimerType&typeChangement=levure&idBiere=" . $_GET['idBiere']?>">
         <div class="row">
             <p class="col">Supprimer levure : </p>
             <div class="col">
-                <select class="form-control" id="levure" name="levure">
+                <select class="form-control" id="typeCarac" name="typeCarac">
                     <option value=""> </option>
                     <?php
                         foreach($levuresBiere as $p){
@@ -105,11 +108,11 @@
 
 <h2 class="text-center"> Ajouter des catégories </h2>
 
-<form class="form-inline" method="POST" action="">
+<form class="form-inline" method="POST" action="<?php echo "index.php?controller=modificationsBiere&action=ajouterType&typeChangement=houblon&idBiere=" . $_GET['idBiere']?>">
         <div class="row">
             <p class="col">Ajouter houblon : </p>
             <div class="col">
-                <select class="form-control" id="houblon" name="houblon">
+                <select class="form-control" id="typeCarac" name="typeCarac">
                     <option value=""> </option>
                     <?php
                         foreach($houblons as $p){
@@ -123,11 +126,11 @@
             </div>
         </div>
 </form>
-<form class="form-inline" method="POST" action="">
+<form class="form-inline" method="POST" action="<?php echo "index.php?controller=modificationsBiere&action=ajouterType&typeChangement=malt&idBiere=" . $_GET['idBiere']?>">
         <div class="row">
             <p class="col">Ajouter malt : </p>
             <div class="col">
-                <select class="form-control" id="malt" name="malt">
+                <select class="form-control" id="typeCarac" name="typeCarac">
                     <option value=""> </option>
                     <?php
                         foreach($malts as $p){
@@ -141,11 +144,11 @@
             </div>
         </div>
 </form>
-<form class="form-inline" method="POST" action="">
+<form class="form-inline" method="POST" action="<?php echo "index.php?controller=modificationsBiere&action=ajouterType&typeChangement=levure&idBiere=" . $_GET['idBiere']?>">
         <div class="row">
             <p class="col">Ajouter levure : </p>
             <div class="col">
-                <select class="form-control" id="levure" name="levure">
+                <select class="form-control" id="typeCarac" name="typeCarac">
                     <option value=""> </option>
                     <?php
                         foreach($levures as $p){
